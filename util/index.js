@@ -1,12 +1,13 @@
-//const List = require("collections/list");
+
 
 /**
- * Converts a string to title case.
+ * Converts a string to title case, where each first letter of a word/phrase
+ * (separated by spaces) is capitalized.
  * @param string The string to convert.
- * @returns {string} The same string, with each word capitalized.
+ * @returns {string} The converted string.
  */
 function titleCase(string) {
-    let splitStr = string.toLowerCase().split(' ');
+    let splitStr = string.split(' ');
 
     for (let i = 0; i < splitStr.length; i++) {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
@@ -36,17 +37,17 @@ function parseToMMSS(time) {
 }
 
 /**
- * Parses the elements of a list containing Categories or Songs.
- * @param list The list to parse
+ * Parses the elements of an array containing Categories or Songs.
+ * @param array The list to parse
  * @returns {string} A comma-separated string with the list of elements.
  */
-function listToString(list) {
+function listToString(array) {
     let result = "";
 
-    for (let i = 0; i < list.length; i++) {
-        let finalOne = (i === list.length - 1);
+    for (let i = 0; i < array.length; i++) {
+        let finalOne = (i === array.length - 1);
 
-        result += list.get(i).getName();
+        result += array[i].getName();
 
         if (!finalOne) {
             result += ", ";
