@@ -18,6 +18,14 @@ class Category {
         console.log("Added " + newSong.toString());
     }
 
+    getSong(name) {
+        return util.getFromArray(name, this.songs);
+    }
+
+    removeSong(name) {
+        this.songs = util.removeFromArray(name, this.songs);
+    }
+
     toString() {
         let result = '"Category ' + this.name + ' containing songs: ';
         result += util.listToString(this.songs) + '"';

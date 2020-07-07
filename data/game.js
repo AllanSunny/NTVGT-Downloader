@@ -11,21 +11,12 @@ class Game {
         this.categories.push(new Category(name));
     }
 
-    /**
-     * Retrieve a specific Category object.
-     * @param name The name of the Category.
-     */
     getCategory(name) {
-        for (let i = 0; i < this.categories.length; i++) {
-            let checking = this.categories[i];
+        return util.getFromArray(name, this.categories);
+    }
 
-            if (checking.getName() === name) {
-                return checking;
-            }
-        }
-
-        //If it gets to this point, category name not found
-        console.log("Category name does not exist!");
+    removeCategory(name) {
+        this.categories = util.removeFromArray(name, this.categories);
     }
 
     addSong (title, vgTitle, ytLink, categoryName, startTime, duration) {
