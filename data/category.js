@@ -12,7 +12,7 @@ class Category {
     }
 
     addSong(title, vgTitle, ytLink, startTime, duration) {
-        let newSong = new Song(title, vgTitle, ytLink, startTime, duration, this.name);
+        let newSong = new Song(title, vgTitle, ytLink, this.name, startTime, duration);
 
         this.songs.push(newSong);
         console.log("Added " + newSong.toString());
@@ -27,7 +27,7 @@ class Category {
     }
 
     toString() {
-        let result = '"Category ' + this.name + ' containing songs: ';
+        let result = '"Category "' + this.name + '" containing songs: ';
         result += util.listToString(this.songs) + '"';
 
         return result;

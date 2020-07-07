@@ -1,11 +1,11 @@
 const util = require("../util/index");
-const {downloader} = require("../util/songdownloader");
-const {TimeFormat} = require("hh-mm-ss");
+const downloader = require("../util/songdownloader");
+const TimeFormat = require("hh-mm-ss");
 
 class Song {
 
-    constructor(title, vgTitle, ytLink, startTime, endTime, categoryName) {
-        //StartTime and EndTime can be in seconds or MM:SS (also optional)
+    constructor(title, vgTitle, ytLink, categoryName, startTime, endTime) {
+        //StartTime and EndTime can be in seconds or MM:SS (also optional)- should be strings
         this.title = util.titleCase(title);
         this.vgTitle = util.titleCase(vgTitle);
         this.categoryName = categoryName;
@@ -14,29 +14,38 @@ class Song {
 
         if (startTime === undefined) {
             startTime = "00:00";
+        } else if (startTime.indexOf(":") === -1) {
+            let startTimeInt = parseInt(startTime);
+            startTime = TimeFormat.fromS(startTimeInt);
         }
-        if (startTime.indexOf(":") === -1) {
-            startTime = TimeFormat.fromS(startTime);
-            //startTime = util.parseToMMSS(startTime);
-        }
+
+        //StartTime is stored in mm:ss format
         this.startTime = startTime;
 
+
         if (endTime === undefined) {
-            endTime = TimeFormat.toS(startTime) + 30;
-            //Default song clip duration is 30 seconds
+            let startTimeSecs = TimeFormat.toS(startTime);
+            let endTimeSecs = startTimeSecs + 30;
+            endTime = TimeFormat.fromS(endTimeSecs);
+        } else if (endTime.indexOf(":") === -1) {
+            let endTimeInt = parseInt(endTime);
+            endTime = TimeFormat.fromS(endTimeInt);
         }
-        if (endTime.indexOf(":") === -1) {
-            endTime = TimeFormat.fromS(endTime);
-        }
+
+        //EndTime is stored in mm:ss format
         this.endTime = endTime;
+
+
+        //TODO: Might be able to remove this
+        this.duration = util.calculateDuration(startTime, endTime);
     }
 
     getName() {
         return this.title + " - " + this.vgTitle;
     }
 
-    downloadSong() {
-        downloader.downloadSong(this.ytLink, this.startTime, this.endTime);
+    downloadSong(destination) {
+        downloader.downloadSong(this.ytLink, this.startTime, this.duration, destination);
     }
 
     /**

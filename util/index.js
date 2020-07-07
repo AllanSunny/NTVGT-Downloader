@@ -1,4 +1,4 @@
-
+const TimeFormat = require("hh-mm-ss");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -17,23 +17,16 @@ function titleCase(string) {
 }
 
 /**
- * Parses a time in seconds to minutes and seconds.
- * @param time The time in seconds.
- * @returns {string} The time in MM:SS format.
+ * Calculate the duration between two video timestamps.
+ * @param startTime The start time, in "hh:mm:ss" format.
+ * @param endTime The end time, in "hh:mm:ss" format.
+ * @returns {number} The number of seconds between the times.
  */
-function parseToMMSS(time) {
-    let minutes = Math.floor(time / 60);
-    let seconds = time - (minutes * 60);
+function calculateDuration(startTime, endTime) {
+    let startTimeSecs = TimeFormat.toS(startTime);
+    let endTimeSecs = TimeFormat.toS(endTime);
 
-    //Any number less than 10, add a zero to front of it
-    function addZeroToSingles(num) {
-        return (num < 10 ? '0' : '') + num;
-    }
-
-    minutes = addZeroToSingles(minutes);
-    seconds = addZeroToSingles(seconds);
-
-    return `${minutes}:${seconds}`;
+    return endTimeSecs - startTimeSecs;
 }
 
 /**
@@ -111,8 +104,8 @@ function removeFromArray(name, array) {
 
 module.exports = {
     titleCase,
-    parseToMMSS,
     listToString,
     getFromArray,
     removeFromArray,
+    calculateDuration,
 };
