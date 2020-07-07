@@ -19,7 +19,7 @@ class Game {
         this.categories = util.removeFromArray(name, this.categories);
     }
 
-    addSong (title, vgTitle, ytLink, categoryName, startTime, duration) {
+    addSong(title, vgTitle, ytLink, categoryName, startTime, duration) {
         this.getCategory(categoryName).addSong(title, vgTitle, ytLink, startTime, duration);
     }
 
