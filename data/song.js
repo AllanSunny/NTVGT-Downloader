@@ -1,6 +1,6 @@
 const util = require("../util/index");
 const downloader = require("../util/songdownloader");
-const TimeFormat = require("hh-mm-ss");
+const timeFormat = require("hh-mm-ss");
 
 class Song {
 
@@ -11,41 +11,45 @@ class Song {
         this.categoryName = categoryName;
         this.ytLink = ytLink;
 
+        this.parseStartTime(startTime);
+        this.parseEndTime(endTime);
 
+        //TODO: Might be able to remove this
+        this.duration = util.calculateDuration(this.startTime, this.endTime);
+    }
+
+    parseStartTime(startTime) {
         if (startTime === undefined) {
             startTime = "00:00";
         } else if (startTime.indexOf(":") === -1) {
             let startTimeInt = parseInt(startTime);
-            startTime = TimeFormat.fromS(startTimeInt);
+            startTime = timeFormat.fromS(startTimeInt);
         }
 
         //StartTime is stored in mm:ss format
         this.startTime = startTime;
+    }
 
-
+    parseEndTime(endTime) {
         if (endTime === undefined) {
-            let startTimeSecs = TimeFormat.toS(startTime);
+            let startTimeSecs = timeFormat.toS(this.startTime);
             let endTimeSecs = startTimeSecs + 30;
-            endTime = TimeFormat.fromS(endTimeSecs);
+            endTime = timeFormat.fromS(endTimeSecs);
         } else if (endTime.indexOf(":") === -1) {
             let endTimeInt = parseInt(endTime);
-            endTime = TimeFormat.fromS(endTimeInt);
+            endTime = timeFormat.fromS(endTimeInt);
         }
 
         //EndTime is stored in mm:ss format
         this.endTime = endTime;
+    }
 
-
-        //TODO: Might be able to remove this
-        this.duration = util.calculateDuration(startTime, endTime);
+    downloadSong(destination) {
+        downloader.downloadSong(this.ytLink, this.startTime, this.endTime, this.getName());
     }
 
     getName() {
         return this.title + " - " + this.vgTitle;
-    }
-
-    downloadSong(destination) {
-        downloader.downloadSong(this.ytLink, this.startTime, this.duration, destination);
     }
 
     /**

@@ -1,0 +1,4 @@
+-f bestaudio
+--extract-audio
+--ffmpeg-location ./util/FFMPEG/ffmpeg.exe
+--audio-format mp3
