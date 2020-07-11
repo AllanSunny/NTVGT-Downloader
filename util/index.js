@@ -55,7 +55,7 @@ function listToString(array) {
  * @param name The name of the object to retrieve.
  * @param array The array the object is stored in.
  * @returns {object} The Category or Song being looked for,
- *          or -1 if it could not be found.
+ *          or undefined if it could not be found.
  */
 function getFromArray(name, array) {
     for (let i = 0; i < array.length; i++) {

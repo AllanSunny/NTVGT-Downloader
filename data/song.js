@@ -4,10 +4,10 @@ const timeFormat = require("hh-mm-ss");
 
 class Song {
 
-    constructor(title, vgTitle, ytLink, categoryName, startTime, endTime) {
+    constructor(name, vgName, ytLink, categoryName, startTime, endTime) {
         //StartTime and EndTime can be in seconds or MM:SS (also optional)- should be strings
-        this.title = util.titleCase(title);
-        this.vgTitle = util.titleCase(vgTitle);
+        this.name = util.titleCase(name);
+        this.vgName = util.titleCase(vgName);
         this.categoryName = categoryName;
         this.ytLink = ytLink;
 
@@ -59,8 +59,13 @@ class Song {
         });
     }
 
+    getGameName() {
+        return this.vgName;
+    }
+
+
     getName() {
-        return this.title + " - " + this.vgTitle;
+        return this.name;
     }
 
     /**
@@ -69,7 +74,7 @@ class Song {
      *      <Song Name> - <Game Name> in category <Category Name> [YouTube Link]
      */
     toString() {
-        return '"' + this.getName() + " in category " + this.categoryName + " [" + this.ytLink + ']"';
+        return `"${this.name} - ${this.vgName} in category "${this.categoryName}" [${this.ytLink}]"`;
     }
 }
 
