@@ -14,6 +14,9 @@ class Song {
         this.parseStartTime(startTime);
         this.parseEndTime(endTime);
 
+        console.log(this.startTime);
+        console.log(this.endTime);
+
         //TODO: Might be able to remove this
         this.duration = util.calculateDuration(this.startTime, this.endTime);
     }
@@ -45,7 +48,7 @@ class Song {
     }
 
     downloadSong(destination) {
-        downloader.downloadSong(this.ytLink, this.startTime, this.endTime, this.getName());
+        downloader.downloadSong(this.ytLink, this.startTime, this.duration, this.getName());
     }
 
     getName() {

@@ -1,4 +1,4 @@
-const TimeFormat = require("hh-mm-ss");
+const timeFormat = require("hh-mm-ss");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -23,8 +23,8 @@ function titleCase(string) {
  * @returns {number} The number of seconds between the times.
  */
 function calculateDuration(startTime, endTime) {
-    let startTimeSecs = TimeFormat.toS(startTime);
-    let endTimeSecs = TimeFormat.toS(endTime);
+    let startTimeSecs = timeFormat.toS(startTime);
+    let endTimeSecs = timeFormat.toS(endTime);
 
     return endTimeSecs - startTimeSecs;
 }

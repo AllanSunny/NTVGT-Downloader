@@ -1,31 +1,33 @@
 const youtubedl = require("youtube-dl");
 const {execFileSync} = require('child_process');
-const ffmpeg = require("js-ffmpeg");
 const fs = require("fs");
-const cutter = require("mp3-cutter");
-const timeFormat = require("hh-mm-ss");
-
 
 //Start and end times are in hh:mm:ss format
-function downloadSong(ytLink, startTime, endTime, name) {
-    //First download whole song into mp3 format
-    let video = youtubedl(ytLink, ['-f', 'bestaudio', '--extract-audio', '--ffmpeg-location', './util/youtubedownloader/FFMPEG/ffmpeg.exe', '--audio-format', 'mp3']);
-
+function downloadSong(ytLink, startTime, duration, name) {
+    //Download audio
+    let video = youtubedl(ytLink, ['-f', 'm4a']);
     video.on('info', function(info) {
         console.log(`Downloading ${name}...`);
+        video.pipe(fs.createWriteStream('./test/temp'));
     });
 
-    video.pipe(fs.createWriteStream('./test/temp.mp3'));
+    video.on('end', () => {
+        //Trim audio
+        console.log("Trimming audio...");
+        execFileSync('./util/FFMPEG/ffmpeg.exe', ['-hide_banner', '-y', '-loglevel', 'panic', '-i', './test/temp',
+            '-ss', startTime, '-t', duration, '-c:v', 'copy', '-c:a', 'copy', './test/FINAL.m4a']);
 
-    // cutter.cut({
-    //     src: './test/temp.mp3',
-    //     target: './test/FINAL.mp3',
-    //     start: 0,
-    //     end: 30
-    // });
+        //Delete temp
+        console.log("Deleting temporary file...");
+        fs.unlinkSync('./test/temp');
+
+        console.log("Done!");
+    });
+
+
+    //TODO: Do a check somewhere to make sure output file doesn't already exist
 }
 
 module.exports = {
     downloadSong,
-    thing,
 };
