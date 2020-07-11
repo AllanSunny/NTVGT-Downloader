@@ -68,7 +68,6 @@ function getFromArray(name, array) {
 
     //If it gets to this point, obj with name not found
     console.log("Category name does not exist!");
-    return -1;
 }
 
 /**
