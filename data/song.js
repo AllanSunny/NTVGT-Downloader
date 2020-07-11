@@ -4,8 +4,9 @@ const timeFormat = require("hh-mm-ss");
 
 class Song {
 
-    constructor(name, vgName, ytLink, categoryName, startTime, endTime) {
+    constructor(id, name, vgName, ytLink, categoryName, startTime, endTime) {
         //StartTime and EndTime can be in seconds or MM:SS (also optional)- should be strings
+        this.id = id;
         this.name = util.titleCase(name);
         this.vgName = util.titleCase(vgName);
         this.categoryName = categoryName;
@@ -49,7 +50,7 @@ class Song {
                 .then(() => downloader.trimSong(this))
                 .then(() => downloader.deleteTemp(this))
                 .then(() => {
-                    console.log(`*Completed download of ${this.getName()}!*`);
+                    console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
                     resolve();
                 })
                 .catch(() => {
@@ -57,6 +58,10 @@ class Song {
                     reject();
                 });
         });
+    }
+
+    getID() {
+        return this.id();
     }
 
     getGameName() {
