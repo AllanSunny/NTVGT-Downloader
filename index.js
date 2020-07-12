@@ -1,4 +1,5 @@
 const {Game} = require("./data/game");
+const fileSorter = require("./util/fileSorter");
 
 function initialize() {
     //Load in existing games
@@ -11,6 +12,7 @@ function main() {
     games[0].addCategory("Wow");
     games[0].addSong("Accumula Town", "Pokemon Black/White", "https://www.youtube.com/watch?v=dTnZqMpWttY", "Wow", "10", "01:00");
 
+    fileSorter.setDestinations(games, "./test");
     let thingy = games[0].getCategory(0).getSong(0).downloadSong("./test/whoa.mp3");
 
     thingy.then(() => {

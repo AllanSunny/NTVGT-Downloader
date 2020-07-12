@@ -6,6 +6,7 @@ class Category {
         this.name = util.titleCase(name);
         this.songs = [];
         this.id = id;
+        this.filePath = "";
     }
 
     getName() {

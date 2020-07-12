@@ -16,6 +16,7 @@ class Song {
         this.parseEndTime(endTime);
 
         this.duration = util.calculateDuration(this.startTime, this.endTime);
+        this.filePath = ""; //Gets assigned later
     }
 
     parseStartTime(startTime) {

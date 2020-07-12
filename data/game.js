@@ -5,6 +5,7 @@ class Game {
     constructor(gameId) {
         this.gameId = gameId;
         this.categories = [];
+        this.filePath = "";
     }
 
     //0 index = category id 0
