@@ -1,5 +1,7 @@
 const util = require("../util/index");
 const {Song} = require("./song");
+const fs = require("fs");
+const sanitizer = require("sanitize-filename");
 
 class Category {
     constructor(name, id) {
@@ -40,6 +42,26 @@ class Category {
 
         //Get to array index and delete one element @ index
         this.songs = this.songs.splice(id, 1);
+    }
+
+    /**
+     *
+     * @param previous The path to the folder that precedes this one.
+     */
+    setFilePaths(previous) {
+        this.filePath = `${previous}/Category ${this.id} - ${sanitizer(this.name)}`;
+
+        for (let song of this.songs) {
+            song.setFilePaths(this.filePath);
+        }
+    }
+
+    async downloadSongs() {
+        await fs.promises.mkdir(this.filePath, {recursive: true});
+
+        for (let song of this.songs) {
+            await song.downloadSong();
+        }
     }
 
     toString() {

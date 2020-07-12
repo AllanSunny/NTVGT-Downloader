@@ -3,7 +3,7 @@ const {Category} = require("./category");
 
 class Game {
     constructor(gameId) {
-        this.gameId = gameId;
+        this.id = gameId;
         this.categories = [];
         this.filePath = "";
     }
@@ -40,8 +40,26 @@ class Game {
         this.getCategory(categoryName).addSong(title, vgTitle, ytLink, startTime, endTime);
     }
 
+    /**
+     *
+     * @param previous The path to the folder that precedes this one.
+     */
+    setFilePaths(previous) {
+        this.filePath = `${previous}/Game ${this.id}`;
+
+        for (let category of this.categories) {
+            category.setFilePaths(this.filePath);
+        }
+    }
+
+    async downloadSongs() {
+        for (let category of this.categories) {
+            await category.downloadSongs();
+        }
+    }
+
     toString() {
-        let result = '"Game ' + (this.gameId + 1) + " containing categories: ";
+        let result = '"Game ' + (this.id + 1) + " containing categories: ";
         result += util.listToString(this.categories) + '"';
 
         return result;

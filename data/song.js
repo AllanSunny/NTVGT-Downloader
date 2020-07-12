@@ -1,6 +1,7 @@
 const util = require("../util/index");
 const downloader = require("../util/songdownloader");
 const timeFormat = require("hh-mm-ss");
+const sanitizer = require("sanitize-filename");
 
 class Song {
 
@@ -45,7 +46,7 @@ class Song {
         this.endTime = endTime;
     }
 
-    downloadSong(destination) {
+    async downloadSong() {
         return new Promise((resolve, reject) => {
             downloader.downloadSong(this)
                 .then(() => downloader.trimSong(this))
@@ -69,9 +70,20 @@ class Song {
         return this.vgName;
     }
 
-
     getName() {
         return this.name;
+    }
+
+    /**
+     *
+     * @param previous The path to the folder that precedes this one.
+     */
+    setFilePaths(previous) {
+        this.filePath = `${previous}/Song ${this.id} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}`;
+    }
+
+    getFilePath() {
+        return this.filePath;
     }
 
     /**
