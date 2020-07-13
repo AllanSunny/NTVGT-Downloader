@@ -30,7 +30,7 @@ function trimSong(song) {
 
         childProcess.execFile('./util/FFMPEG/ffmpeg.exe', ['-hide_banner', '-y', '-loglevel', 'panic',
                 '-i', `${song.getFilePath()} (temp)`, '-ss', song.startTime, '-t', song.duration,
-                '-c:v', 'copy', '-c:a', 'copy', `${song.getFilePath()}.m4a`],
+                '-c:v', 'copy', '-c:a', 'copy', `${song.getFilePath()}`],
             () => {
             console.log(`Trimmed audio for "${song.getName()} - ${song.getGameName()}"!`);
             resolve();
