@@ -45,7 +45,7 @@ class Game {
      * @param previous The path to the folder that precedes this one.
      */
     setFilePaths(previous) {
-        this.filePath = `${previous}/Game ${this.id}`;
+        this.filePath = `${previous}/Game ${this.id + 1}`;
 
         for (let category of this.categories) {
             category.setFilePaths(this.filePath);

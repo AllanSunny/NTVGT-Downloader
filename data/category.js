@@ -49,7 +49,7 @@ class Category {
      * @param previous The path to the folder that precedes this one.
      */
     setFilePaths(previous) {
-        this.filePath = `${previous}/Category ${this.id} - ${sanitizer(this.name)}`;
+        this.filePath = `${previous}/Category ${this.id + 1} - ${sanitizer(this.name)}`;
 
         for (let song of this.songs) {
             song.setFilePaths(this.filePath);

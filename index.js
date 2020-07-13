@@ -2,10 +2,15 @@ const {Game} = require("./data/game");
 const fileSorter = require("./util/fileSorter");
 
 function initialize() {
+    //TODO
     //Load in existing games
+    //Update youtube-dl
+    //Check that ffmpeg exists
 }
 
 function main() {
+    initialize();
+
     let games = [];
 
     games.push(new Game(games.length));
@@ -14,7 +19,8 @@ function main() {
 
     fileSorter.setDestinations(games, "./test");
     let thingy = games[0].downloadSongs();
-        //games[0].getCategory(0).getSong(0).downloadSong("./test/whoa.mp3");
+        //TODO: What happens if data structure changes after a round of downloads?
+        //TODO: Command inputs should be blocked until downloads are done
 
     thingy.then(() => {
         games[0].removeCategory("Wow");
