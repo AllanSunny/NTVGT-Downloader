@@ -22,23 +22,18 @@ class Game {
     getCategory(id) {
         if (isNaN(id)) {
             //Not a number, search by name
-            return util.getFromArray(id, this.categories);
+            return util.getFromArray(id, this.categories, 0);
+        } else {
+            return util.getFromArray(id, this.categories, 1);
         }
-
-        return this.categories[id];
     }
 
     removeCategory(id) {
         if (isNaN(id)) {
-            this.categories = util.removeFromArray(id, this.categories);
+            this.categories = util.removeFromArray(id, this.categories, 0);
+        } else {
+            this.categories = util.removeFromArray(id, this.categories, 1);
         }
-
-        //Get to array index and delete one element @ index
-        this.categories = this.categories.splice(id, 1);
-    }
-
-    addSong(title, vgTitle, ytLink, categoryName, startTime, endTime) {
-        this.getCategory(categoryName).addSong(title, vgTitle, ytLink, startTime, endTime);
     }
 
     /**

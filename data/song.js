@@ -62,7 +62,7 @@ class Song {
     }
 
     getID() {
-        return this.id();
+        return this.id;
     }
 
     getGameName() {

@@ -2,7 +2,7 @@ const {Game} = require("./data/game");
 const fileSorter = require("./util/fileSorter");
 const ytdlupdater = require("youtube-dl/lib/downloader");
 
-function initialize() {
+async function initialize() {
     return new Promise((resolve, reject) => {
         //TODO
         //Promise 1: load existing games
@@ -33,9 +33,12 @@ function main() {
 
     games.push(new Game(gameCount++));
     games[0].addCategory("Wow");
-    games[0].addSong("Accumula Town", "Pokemon Black/White", "https://www.youtube.com/watch?v=dTnZqMpWttY", "Wow", "10", "01:00");
+    games[0].getCategory(0)
+        .addSong("Accumula Town", "Pokemon Black/White", "https://www.youtube.com/watch?v=dTnZqMpWttY", "10", "01:00");
 
     fileSorter.setDestinations(games, "./test");
+    games[0].getCategory(0).removeSong(0);
+
     let thingy = games[0].downloadSongs();
         //TODO: What happens if data structure changes after a round of downloads?
         //TODO: Command inputs should be blocked until downloads are done
@@ -49,7 +52,8 @@ function main() {
 }
 
 initialize()
-    .then(() => main())
     .catch(() => {
-        console.log("Failed to initialize!!");
-    });
+        console.log("Failed to initialize!");
+        process.exit(1);
+    })
+    .then(() => main());

@@ -52,16 +52,20 @@ function listToString(array) {
 
 /**
  * Retrieve a Category or Song from an array.
- * @param name The name of the object to retrieve.
+ * @param name The name or ID of the object to retrieve.
  * @param array The array the object is stored in.
+ * @param mode Whether name is a string (0), or an ID (1).
  * @returns {object} The Category or Song being looked for,
  *          or undefined if it could not be found.
  */
-function getFromArray(name, array) {
+function getFromArray(name, array, mode) {
     for (let i = 0; i < array.length; i++) {
         let checking = array[i];
 
-        if (checking.getName() === name) {
+        if (mode === 0 && checking.getName() === name) {
+            return checking;
+        }
+        if (mode === 1 && checking.getID() === name) {
             return checking;
         }
     }
@@ -72,19 +76,25 @@ function getFromArray(name, array) {
 
 /**
  * Remove a Category or Song from an array.
- * @param name The name of the object to remove.
+ * @param name The name or ID of the object to remove.
  * @param array The array the object is stored in.
+ * @param mode Whether name is a string (0), or an ID (1).
  * @returns {array} A copy of the original array, with the object of
  *      <name> removed, or no changes made if it was not found.
  */
-function removeFromArray(name, array) {
+function removeFromArray(name, array, mode) {
     let toRemoveIndex = -1;
     let removed = -1;
 
     for (let i = 0; i < array.length; i++) {
         let checking = array[i];
 
-        if (checking.getName() === name) {
+        if (mode === 0 && checking.getName() === name) {
+            toRemoveIndex = i;
+            removed = checking;
+        }
+
+        if (mode === 1 && checking.getID() === name) {
             toRemoveIndex = i;
             removed = checking;
         }
@@ -92,7 +102,7 @@ function removeFromArray(name, array) {
 
     if (toRemoveIndex > -1) {
         array.splice(toRemoveIndex, 1);
-        console.log("Successfully removed " + removed.toString());
+        console.log("Removed " + removed.toString());
     } else {
         console.log(name + " not found to remove!");
     }

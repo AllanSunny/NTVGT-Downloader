@@ -30,19 +30,18 @@ class Category {
     getSong(id) {
         if (isNaN(id)) {
             //Not a number, search by name
-            return util.getFromArray(id, this.songs);
+            return util.getFromArray(id, this.songs, 0);
+        } else {
+            return util.getFromArray(id, this.songs, 1);
         }
-
-        return this.songs[id];
     }
 
     removeSong(id) {
         if (isNaN(id)) {
-            this.songs = util.removeFromArray(id, this.songs);
+            this.songs = util.removeFromArray(id, this.songs, 0);
+        } else {
+            this.songs = util.removeFromArray(id, this.songs, 1);
         }
-
-        //Get to array index and delete one element @ index
-        this.songs = this.songs.splice(id, 1);
     }
 
     /**
