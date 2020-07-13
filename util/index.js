@@ -1,5 +1,6 @@
 const timeFormat = require("hh-mm-ss");
 const fs = require("fs");
+const sanitizer = require("sanitize-filename");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
