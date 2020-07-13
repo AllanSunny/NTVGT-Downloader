@@ -22,7 +22,7 @@ function main() {
         //TODO: Command inputs should be blocked until downloads are done
 
     thingy.then(() => {
-        gameManager.getGame(0).getCategory(0).removeSong(0);
+        //gameManager.getGame(0).getCategory(0).removeSong(0);
         //gameManager.getGame(0).removeCategory("Wow");
         console.log(gameManager.getGame(0).getCategory(0).toString());
         console.log("owo");

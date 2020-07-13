@@ -1,5 +1,6 @@
 const timeFormat = require("hh-mm-ss");
 const fs = require("fs");
+const sanitizer = require("sanitize-filename");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -107,9 +108,15 @@ function removeFromArray(name, array, mode) {
         let removedFilePath = removed.getFilePath();
         fs.access(removedFilePath, (error => {
             if (!error) {
-                fs.promises.rmdir(removedFilePath, {recursive: true});
+                //Check stats on the file to be removed
+                fs.lstat(removedFilePath, ((err, stats) => {
+                    if (stats.isFile()) { //Is song
+                        fs.promises.unlink(removedFilePath);
+                    } else { //Is directory
+                        fs.promises.rmdir(removedFilePath, {recursive: true});
+                    }
+                }));
             }
-
             //Error means file/directory doesn't exist, moving on
         }));
 

@@ -77,8 +77,10 @@ class Song {
      *
      * @param previous The path to the folder that precedes this one.
      */
+
+    //File format is m4a
     setFilePath(previous) {
-        this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}`;
+        this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}.m4a`;
     }
 
     getFilePath() {
