@@ -56,6 +56,10 @@ class Category {
         }
     }
 
+    getFilePath() {
+        return this.filePath;
+    }
+
     async downloadSongs() {
         await fs.promises.mkdir(this.filePath, {recursive: true});
 
@@ -69,9 +73,8 @@ class Category {
 
     toString() {
         if (this.songs.length === 0) {
-            return `"Category "${this.name}""`;
+            return `"Category "${this.name}" with no songs"`;
         }
-
 
         let result = `"Category "${this.name}" containing songs: `;
         result += util.listToString(this.songs) + '"';

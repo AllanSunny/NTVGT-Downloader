@@ -36,15 +36,15 @@ function main() {
         .addSong("Accumula Town", "Pokemon Black/White", "https://www.youtube.com/watch?v=dTnZqMpWttY", "10", "01:00");
 
     gameManager.setDestination("./test");
-    //gameManager.getGame(0).getCategory(0).removeSong(0);
 
     let thingy = gameManager.getGame(0).downloadSongs();
-        //TODO: What happens if data structure changes after a round of downloads?
         //TODO: Command inputs should be blocked until downloads are done
 
+    gameManager.getGame(0).getCategory(0).removeSong(0);
+
     thingy.then(() => {
-        gameManager.getGame(0).removeCategory("Wow");
-        console.log(gameManager.getGame(0).getCategory(0));
+        //gameManager.getGame(0).removeCategory("Wow");
+        console.log(gameManager.getGame(0).getCategory(0).toString());
         console.log("owo");
         //TODO: Command input loop would repeat here?
     });

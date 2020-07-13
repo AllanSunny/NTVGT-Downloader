@@ -55,6 +55,10 @@ class Game {
         }
     }
 
+    getFilePath() {
+        return this.filePath;
+    }
+
     async downloadSongs() {
         for (let category of this.categories) {
             await category.downloadSongs();

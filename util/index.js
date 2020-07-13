@@ -1,4 +1,5 @@
 const timeFormat = require("hh-mm-ss");
+const fs = require("fs");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -84,7 +85,7 @@ function getFromArray(name, array, mode) {
  */
 function removeFromArray(name, array, mode) {
     let toRemoveIndex = -1;
-    let removed = -1;
+    let removed;
 
     for (let i = 0; i < array.length; i++) {
         let checking = array[i];
@@ -102,6 +103,16 @@ function removeFromArray(name, array, mode) {
 
     if (toRemoveIndex > -1) {
         array.splice(toRemoveIndex, 1);
+
+        let removedFilePath = removed.getFilePath();
+        fs.access(removedFilePath, (error => {
+            if (!error) {
+                fs.promises.rmdir(removedFilePath, {recursive: true});
+            }
+
+            //Error means file/directory doesn't exist, moving on
+        }));
+
         console.log(`Removed ${removed.toString()}.`);
     } else {
         console.log(name + " not found to remove!");
