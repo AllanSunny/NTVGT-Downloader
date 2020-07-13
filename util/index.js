@@ -121,6 +121,17 @@ function removeFromArray(name, array, mode) {
     return array;
 }
 
+/**
+ * Exit the function gracefully by saving running data before termination.
+ * @param code The code to terminate with. (0 is normal, 1 is error)
+ */
+function gracefulExit(code) {
+    //TODO: Save data
+
+    console.log("Gracefully dying and crying");
+    process.exit(code);
+}
+
 
 module.exports = {
     titleCase,
@@ -128,4 +139,5 @@ module.exports = {
     getFromArray,
     removeFromArray,
     calculateDuration,
+    gracefulExit,
 };
