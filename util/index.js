@@ -1,6 +1,5 @@
 const timeFormat = require("hh-mm-ss");
 const fs = require("fs");
-const sanitizer = require("sanitize-filename");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -104,28 +103,33 @@ function removeFromArray(name, array, mode) {
 
     if (toRemoveIndex > -1) {
         array.splice(toRemoveIndex, 1);
-
-        let removedFilePath = removed.getFilePath();
-        fs.access(removedFilePath, (error => {
-            if (!error) {
-                //Check stats on the file to be removed
-                fs.lstat(removedFilePath, ((err, stats) => {
-                    if (stats.isFile()) { //Is song
-                        fs.promises.unlink(removedFilePath);
-                    } else { //Is directory
-                        fs.promises.rmdir(removedFilePath, {recursive: true});
-                    }
-                }));
-            }
-            //Error means file/directory doesn't exist, moving on
-        }));
-
+        removeFileOrDirectory(removed.getFilePath());
         console.log(`Removed ${removed.toString()}.`);
     } else {
         console.log(name + " not found to remove!");
     }
 
     return array;
+}
+
+/**
+ * Remove a file or a directory.
+ * @param path The path to the file or directory.
+ */
+function removeFileOrDirectory(path) {
+    fs.access(path, (error => {
+        if (!error) {
+            //Check stats on the file to be removed
+            fs.lstat(path, ((err, stats) => {
+                if (stats.isFile()) {
+                    fs.promises.unlink(path);
+                } else { //Is directory
+                    fs.promises.rmdir(path, {recursive: true});
+                }
+            }));
+        }
+        //Error means file/directory doesn't exist, moving on
+    }));
 }
 
 /**
