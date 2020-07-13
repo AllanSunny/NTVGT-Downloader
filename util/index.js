@@ -51,11 +51,11 @@ function listToString(array) {
 }
 
 /**
- * Retrieve a Category or Song from an array.
+ * Retrieve a Game, Category, or Song from an array.
  * @param name The name or ID of the object to retrieve.
  * @param array The array the object is stored in.
  * @param mode Whether name is a string (0), or an ID (1).
- * @returns {object} The Category or Song being looked for,
+ * @returns {object} The Game, Category, or Song being looked for,
  *          or undefined if it could not be found.
  */
 function getFromArray(name, array, mode) {
@@ -75,7 +75,7 @@ function getFromArray(name, array, mode) {
 }
 
 /**
- * Remove a Category or Song from an array.
+ * Remove a Game, Category, or Song from an array.
  * @param name The name or ID of the object to remove.
  * @param array The array the object is stored in.
  * @param mode Whether name is a string (0), or an ID (1).
@@ -102,7 +102,7 @@ function removeFromArray(name, array, mode) {
 
     if (toRemoveIndex > -1) {
         array.splice(toRemoveIndex, 1);
-        console.log("Removed " + removed.toString());
+        console.log(`Removed ${removed.toString()}.`);
     } else {
         console.log(name + " not found to remove!");
     }

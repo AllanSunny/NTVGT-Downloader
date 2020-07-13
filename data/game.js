@@ -9,9 +9,16 @@ class Game {
         this.filePath = "";
     }
 
+    getID() {
+        return this.id;
+    }
+
     //0 index = category id 0
     addCategory(name) {
-        this.categories.push(new Category(name, this.categoryCount++));
+        let newCategory = new Category(name, this.categoryCount++);
+
+        this.categories.push(newCategory);
+        console.log(`Added new Category "${newCategory.getName()}"!`);
     }
 
     /**

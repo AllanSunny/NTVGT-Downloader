@@ -1,6 +1,6 @@
 const {Game} = require("./data/game");
-const fileSorter = require("./util/fileSorter");
 const ytdlupdater = require("youtube-dl/lib/downloader");
+const {GameManager} = require("./data/gamemanager");
 
 async function initialize() {
     return new Promise((resolve, reject) => {
@@ -28,24 +28,23 @@ async function initialize() {
 }
 
 function main() {
-    let games = [];
-    let gameCount = 0;
+    let gameManager = new GameManager();
 
-    games.push(new Game(gameCount++));
-    games[0].addCategory("Wow");
-    games[0].getCategory(0)
+    gameManager.addGame();
+    gameManager.getGame(0).addCategory("Wow");
+    gameManager.getGame(0).getCategory(0)
         .addSong("Accumula Town", "Pokemon Black/White", "https://www.youtube.com/watch?v=dTnZqMpWttY", "10", "01:00");
 
-    fileSorter.setDestinations(games, "./test");
-    games[0].getCategory(0).removeSong(0);
+    gameManager.setDestination("./test");
+    //gameManager.getGame(0).getCategory(0).removeSong(0);
 
-    let thingy = games[0].downloadSongs();
+    let thingy = gameManager.getGame(0).downloadSongs();
         //TODO: What happens if data structure changes after a round of downloads?
         //TODO: Command inputs should be blocked until downloads are done
 
     thingy.then(() => {
-        games[0].removeCategory("Wow");
-        console.log(games[0].getCategory("Wow"));
+        gameManager.getGame(0).removeCategory("Wow");
+        console.log(gameManager.getGame(0).getCategory(0));
         console.log("owo");
         //TODO: Command input loop would repeat here?
     });
