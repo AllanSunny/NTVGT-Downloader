@@ -42,13 +42,9 @@ function trimSong(song) {
 function deleteTemp(song) {
     return new Promise(resolve => {
         console.log(`Deleting temporary file for "${song.getName()} - ${song.getGameName()}"...`);
-
         fs.unlink(`${song.getFilePath()} (temp)`, resolve);
     });
 }
-
-    //TODO: Do a check somewhere to make sure output file doesn't already exist??
-
 
 module.exports = {
     downloadSong,
