@@ -5,9 +5,10 @@ const sanitizer = require("sanitize-filename");
 
 class Category {
     constructor(name, id) {
-        this.name = util.titleCase(name);
-        this.songs = [];
         this.id = id;
+        this.name = util.titleCase(name);
+        this.songCount = 0;
+        this.songs = [];
         this.filePath = "";
     }
 
@@ -20,7 +21,7 @@ class Category {
     }
 
     addSong(title, vgTitle, ytLink, startTime, endTime) {
-        let newSong = new Song(this.songs.length, title, vgTitle, ytLink, this.name, startTime, endTime);
+        let newSong = new Song(this.songCount++, title, vgTitle, ytLink, this.name, startTime, endTime);
 
         this.songs.push(newSong);
         console.log("Added " + newSong.toString());
@@ -52,7 +53,7 @@ class Category {
         this.filePath = `${previous}/Category ${this.id + 1} - ${sanitizer(this.name)}`;
 
         for (let song of this.songs) {
-            song.setFilePaths(this.filePath);
+            song.setFilePath(this.filePath);
         }
     }
 
@@ -60,7 +61,10 @@ class Category {
         await fs.promises.mkdir(this.filePath, {recursive: true});
 
         for (let song of this.songs) {
-            await song.downloadSong();
+            await song.downloadSong()
+                .catch((error) => {
+                    console.error(error.stderr);
+                });
         }
     }
 

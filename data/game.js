@@ -4,13 +4,14 @@ const {Category} = require("./category");
 class Game {
     constructor(gameId) {
         this.id = gameId;
+        this.categoryCount = 0;
         this.categories = [];
         this.filePath = "";
     }
 
     //0 index = category id 0
     addCategory(name) {
-        this.categories.push(new Category(name, this.categories.length));
+        this.categories.push(new Category(name, this.categoryCount++));
     }
 
     /**

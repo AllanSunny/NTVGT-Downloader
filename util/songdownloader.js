@@ -7,12 +7,15 @@ function downloadSong(song) {
     return new Promise((resolve, reject) => {
         let video = youtubedl(song.ytLink, ['-f', 'm4a']);
 
-        video.on('info', function (info) {
+        video.on('info', () => {
             console.log(`Downloading audio for ${song.getName()} - ${song.getGameName()}...`);
             video.pipe(fs.createWriteStream(`${song.getFilePath()} (temp)`));
         });
 
-        video.on('error', reject);
+        video.on('error', (error) => {
+            console.error("An error occurred while trying to download a song.");
+            reject(error);
+        });
         video.on('end', () => {
             console.log(`Downloaded audio for ${song.getName()} - ${song.getGameName()}!`);
             resolve();

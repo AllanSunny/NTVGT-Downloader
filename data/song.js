@@ -55,9 +55,8 @@ class Song {
                     console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
                     resolve();
                 })
-                .catch(() => {
-                    console.log("WTF");
-                    reject();
+                .catch((error) => {
+                    reject(error);
                 });
         });
     }
@@ -78,7 +77,7 @@ class Song {
      *
      * @param previous The path to the folder that precedes this one.
      */
-    setFilePaths(previous) {
+    setFilePath(previous) {
         this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}`;
     }
 
