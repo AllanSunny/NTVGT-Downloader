@@ -10,7 +10,6 @@ async function initialize() {
         //Promise 3: update youtube-dl
         //Any errors? Catch and reject
 
-        resolve();
         //TODO: store version of youtube-dl, check against version of exe file
 
         // console.log("Updating youtube-dl...");
@@ -24,6 +23,8 @@ async function initialize() {
         //         resolve();
         //     }
         // });
+
+        resolve();
     });
 }
 
@@ -52,7 +53,12 @@ function main() {
 
 initialize()
     .catch(() => {
-        console.log("Failed to initialize!");
+        console.error("Failed to initialize!");
         process.exit(1);
     })
-    .then(() => main());
+
+    .then(() => main())
+    .catch((error) => {
+        console.error("A fatal error occurred.");
+        console.error(error);
+    });
