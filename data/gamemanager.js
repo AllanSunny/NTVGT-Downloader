@@ -8,7 +8,7 @@ class GameManager {
     }
 
     addGame() {
-        let newGame = new Game(this.gameCount++);
+        let newGame = new Game(this.gameCount++, this);
 
         this.games.push(newGame);
         console.log(`Added new Game! (ID: ${newGame.getID()})`);

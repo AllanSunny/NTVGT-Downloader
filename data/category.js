@@ -4,12 +4,13 @@ const fs = require("fs");
 const sanitizer = require("sanitize-filename");
 
 class Category {
-    constructor(name, id) {
+    constructor(name, id, game) {
         this.id = id;
         this.name = util.titleCase(name);
         this.songCount = 0;
         this.songs = [];
         this.filePath = "";
+        this.game = game;
     }
 
     getName() {
@@ -20,8 +21,12 @@ class Category {
         return this.id;
     }
 
+    getPrevious() {
+        return this.game;
+    }
+
     addSong(title, vgTitle, ytLink, startTime, endTime) {
-        let newSong = new Song(this.songCount++, title, vgTitle, ytLink, this.name, startTime, endTime);
+        let newSong = new Song(this.songCount++, title, vgTitle, ytLink, this, startTime, endTime);
 
         this.songs.push(newSong);
         console.log(`Added ${newSong.toString()}!`);

@@ -5,12 +5,12 @@ const sanitizer = require("sanitize-filename");
 
 class Song {
 
-    constructor(id, name, vgName, ytLink, categoryName, startTime, endTime) {
+    constructor(id, name, vgName, ytLink, category, startTime, endTime) {
         //StartTime and EndTime can be in seconds or MM:SS (also optional)- should be strings
         this.id = id;
         this.name = util.titleCase(name);
         this.vgName = util.titleCase(vgName);
-        this.categoryName = categoryName;
+        this.category = category;
         this.ytLink = ytLink;
 
         this.parseStartTime(startTime);
@@ -46,21 +46,6 @@ class Song {
         this.endTime = endTime;
     }
 
-    async downloadSong() {
-        return new Promise((resolve, reject) => {
-            downloader.downloadSong(this)
-                .then(() => downloader.trimSong(this))
-                .then(() => downloader.deleteTemp(this))
-                .then(() => {
-                    console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
-                    resolve();
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
-    }
-
     getID() {
         return this.id;
     }
@@ -71,6 +56,10 @@ class Song {
 
     getName() {
         return this.name;
+    }
+
+    getPrevious() {
+        return this.category;
     }
 
     /**
@@ -87,13 +76,28 @@ class Song {
         return this.filePath;
     }
 
+    async downloadSong() {
+        return new Promise((resolve, reject) => {
+            downloader.downloadSong(this)
+                .then(() => downloader.trimSong(this))
+                .then(() => downloader.deleteTemp(this))
+                .then(() => {
+                    console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
     /**
      * Convert the song information into a readable string.
      * @returns {string} Song information in the format:
      *      <Song Name> - <Game Name> in category <Category Name> [YouTube Link]
      */
     toString() {
-        return `"${this.name} - ${this.vgName} in category "${this.categoryName}" [${this.ytLink}]"`;
+        return `"${this.name} - ${this.vgName} in category "${this.category.getName()}" [${this.ytLink}]"`;
     }
 }
 

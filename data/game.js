@@ -2,20 +2,25 @@ const util = require("../util/index");
 const {Category} = require("./category");
 
 class Game {
-    constructor(gameId) {
+    constructor(gameId, gameManager) {
         this.id = gameId;
         this.categoryCount = 0;
         this.categories = [];
         this.filePath = "";
+        this.gameManager = gameManager;
     }
 
     getID() {
         return this.id;
     }
 
+    getPrevious() {
+        return this.gameManager;
+    }
+
     //0 index = category id 0
     addCategory(name) {
-        let newCategory = new Category(name, this.categoryCount++);
+        let newCategory = new Category(name, this.categoryCount++, this);
 
         this.categories.push(newCategory);
         console.log(`Added new Category "${newCategory.getName()}"!`);
