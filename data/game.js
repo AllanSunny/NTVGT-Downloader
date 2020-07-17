@@ -14,6 +14,10 @@ class Game {
         return this.id;
     }
 
+    getAll() {
+        return this.categories;
+    }
+
     getPrevious() {
         return this.gameManager;
     }

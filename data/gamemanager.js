@@ -18,6 +18,10 @@ class GameManager {
         return util.getFromArray(id, this.games, 1);
     }
 
+    getAll() {
+        return this.games;
+    }
+
     removeGame(id) {
         return util.removeFromArray(id, this.games, 1);
     }

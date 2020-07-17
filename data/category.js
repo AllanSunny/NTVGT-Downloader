@@ -21,6 +21,10 @@ class Category {
         return this.id;
     }
 
+    getAll() {
+        return this.songs;
+    }
+
     getPrevious() {
         return this.game;
     }
