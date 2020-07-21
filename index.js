@@ -31,7 +31,7 @@ function main() {
             commandInterpreter.execute(line.trim())
                 .then(() => input.prompt(true))
                 .catch(() => {
-                    //TODO: Error handling on command execution
+                    //TODO
                 });
         }
     });

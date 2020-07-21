@@ -21,7 +21,7 @@ class CommandInterpreter {
         }
 
         //this.commands.get("retrieveNext")();
-        console.log(`Currently viewing: ${this.reference.toString()}`)
+        console.log(`Currently viewing: ${this.reference.toString()}`);
     }
 
     //Pass in a raw string, parse into array
@@ -32,6 +32,7 @@ class CommandInterpreter {
         return new Promise ((resolve, reject) => {
             let argumentArray = string.split(",");
             let toExecute = this.commands.get(argumentArray[0]);
+            argumentArray.shift(); //Anything left is arguments
 
             //TODO: Invalid command handle won't be needed with UI
             if (toExecute === undefined) {
@@ -41,10 +42,16 @@ class CommandInterpreter {
             }
 
             //Remove command name from array, rest is arguments
-            toExecute(this.reference, argumentArray.splice(-1, 1));
-
-            this.status = this.statusNames.READY;
-            resolve();
+            toExecute(this.reference, argumentArray)
+                .then(() => {
+                    this.status = this.statusNames.READY;
+                    resolve();
+                })
+                .catch(() => {
+                    //TODO: Error handling
+                    this.status = this.statusNames.READY;
+                    reject();
+                });
         });
     }
 
