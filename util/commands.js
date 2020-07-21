@@ -1,27 +1,33 @@
+const util = require ("./index");
 
-//Object is point of reference, id is name or num
-function retrieveNext(object, id) {
-    console.log("why");
+//Object is point of reference, args is name or num (will be in array)
+function retrieveNext(object, args) {
+    console.log(args);
 }
 
 function retrievePrevious(object) {
 
 }
 
-function add(object, ...details) {
+//New Song: add, accumula town, pokemon black/white, link, time, time
+function add(object, args) {
 
 }
 
-function remove(object, id) {
+function remove(object, args) {
 
 }
 
+function exit() {
+    //TODO
+    util.gracefulExit(0);
+}
 
-function getAllCommands(string) {
+function getAllCommands() {
     return module.exports.commands;
 }
 
 module.exports = {
     getAllCommands,
-    commands: [retrieveNext, retrievePrevious, add, remove],
+    commands: [retrieveNext, retrievePrevious, add, remove, exit],
 };

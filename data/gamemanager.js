@@ -37,6 +37,20 @@ class GameManager {
             await game.downloadSongs();
         }
     }
+
+    toString() {
+        let resultArray = [];
+
+        for (let game of this.games) {
+            resultArray.push(game.getID());
+        }
+
+        if (resultArray.length === 0) {
+            return `NTVGT session with no games`;
+        } else {
+            return `NTVGT session containing game IDs: ${resultArray.toString()}`;
+        }
+    }
 }
 
 module.exports = {

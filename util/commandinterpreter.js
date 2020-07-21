@@ -13,25 +13,49 @@ class CommandInterpreter {
         this.reference = gameManager;
         this.gameManager = gameManager;
 
-        let wow = commands.getAllCommands();
-
-        let thing = new HashMap();
-        for (let command of wow) {
-            thing.set(command.name, command);
+        //Take all the command functions and map them
+        let commandArray = commands.getAllCommands();
+        this.commands = new HashMap();
+        for (let command of commandArray) {
+            this.commands.set(command.name, command);
         }
 
-        thing.get("retrieveNext")();
+        //this.commands.get("retrieveNext")();
+        console.log(`Currently viewing: ${this.reference.toString()}`)
     }
 
+    //Pass in a raw string, parse into array
+    execute(string) {
+        console.log(string);
+        this.status = this.statusNames.BUSY;
+
+        return new Promise ((resolve, reject) => {
+            let argumentArray = string.split(",");
+            let toExecute = this.commands.get(argumentArray[0]);
+
+            //TODO: Invalid command handle won't be needed with UI
+            if (toExecute === undefined) {
+                console.log("Oops");
+                this.status = this.statusNames.READY;
+                resolve();
+            }
+
+            //Remove command name from array, rest is arguments
+            toExecute(this.reference, argumentArray.splice(-1, 1));
+
+            this.status = this.statusNames.READY;
+            resolve();
+        });
+    }
+
+    getReference() {
+        return this.reference;
+    }
 
     getStatus() {
         return this.status;
     }
-
-
 }
-
-let wow = new CommandInterpreter();
 
 module.exports = {
     CommandInterpreter,
