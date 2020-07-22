@@ -2,17 +2,11 @@ const util = require ("./index");
 
 //Object is point of reference, args is name or num (will be in array)
 function get(object, args) {
-    let id = args[0];
-
-    if (util.isNumber(id)) {
-        id = parseInt(id);
-    }
-
     return new Promise((resolve, reject) => {
         let result;
 
         if (typeof object.getData === "function") {
-            result = object.getData(id);
+            result = object.getData(args[0]);
         }
 
         if (result) {
@@ -41,11 +35,7 @@ function add(object, args) {
 }
 
 function remove(object, args) {
-    let id = args[0];
 
-    if (util.isNumber(id)) {
-        id = parseInt(id);
-    }
 }
 
 function exit() {

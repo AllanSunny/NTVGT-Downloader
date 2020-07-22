@@ -16,7 +16,7 @@ class GameManager {
 
     //ID must be a number here
     getData(id) {
-        return util.getFromArray(id, this.games, 1);
+        return util.getFromArray(id, this.games);
     }
 
     getAll() {
@@ -24,7 +24,7 @@ class GameManager {
     }
 
     removeData(id) {
-        return util.removeFromArray(id, this.games, 1);
+        return util.removeFromArray(id, this.games);
     }
 
     setDestination(root) {

@@ -37,20 +37,11 @@ class Category {
     }
 
     getData(id) {
-        if (isNaN(id)) {
-            //Not a number, search by name
-            return util.getFromArray(id, this.songs, 0);
-        } else {
-            return util.getFromArray(id, this.songs, 1);
-        }
+        return util.getFromArray(id, this.songs);
     }
 
     removeData(id) {
-        if (isNaN(id)) {
-            this.songs = util.removeFromArray(id, this.songs, 0);
-        } else {
-            this.songs = util.removeFromArray(id, this.songs, 1);
-        }
+        this.songs = util.removeFromArray(id, this.songs);
     }
 
     /**

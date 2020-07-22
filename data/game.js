@@ -36,20 +36,11 @@ class Game {
      * @returns {Category} The instance of a category.
      */
     getData(id) {
-        if (isNaN(id)) {
-            //Not a number, search by name
-            return util.getFromArray(id, this.categories, 0);
-        } else {
-            return util.getFromArray(id, this.categories, 1);
-        }
+        return util.getFromArray(id, this.categories);
     }
 
     removeData(id) {
-        if (isNaN(id)) {
-            this.categories = util.removeFromArray(id, this.categories, 0);
-        } else {
-            this.categories = util.removeFromArray(id, this.categories, 1);
-        }
+        this.categories = util.removeFromArray(id, this.categories);
     }
 
     /**

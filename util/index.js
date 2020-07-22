@@ -62,21 +62,27 @@ function isNumber(string) {
 
 /**
  * Retrieve a Game, Category, or Song from an array.
- * @param name The name or ID of the object to retrieve.
+ * @param name The name or ID number of the object to retrieve.
  * @param array The array the object is stored in.
- * @param mode Whether name is a string (0), or an ID (1).
  * @returns {object} The Game, Category, or Song being looked for,
  *          or undefined if it could not be found.
  */
-function getFromArray(name, array, mode) {
-    for (let i = 0; i < array.length; i++) {
-        let checking = array[i];
+function getFromArray(name, array) {
+    if (isNumber(name)) {
+        for (let i = 0; i < array.length; i++) {
+            let checking = array[i];
 
-        if (mode === 0 && checking.getName() === name) {
-            return checking;
+            if (checking.getID() === parseInt(name)) {
+                return checking;
+            }
         }
-        if (mode === 1 && checking.getID() === name) {
-            return checking;
+    } else {
+        for (let i = 0; i < array.length; i++) {
+            let checking = array[i];
+
+            if (checking.getName() === name) {
+                return checking;
+            }
         }
     }
 
@@ -85,27 +91,32 @@ function getFromArray(name, array, mode) {
 
 /**
  * Remove a Game, Category, or Song from an array.
- * @param name The name or ID of the object to remove.
+ * @param name The name or ID number of the object to remove.
  * @param array The array the object is stored in.
- * @param mode Whether name is a string (0), or an ID (1).
  * @returns {array} A copy of the original array, with the object of
  *      <name> removed, or no changes made if it was not found.
  */
-function removeFromArray(name, array, mode) {
+function removeFromArray(name, array) {
     let toRemoveIndex = -1;
     let removed;
 
-    for (let i = 0; i < array.length; i++) {
-        let checking = array[i];
+    if (isNumber(name)) {
+        for (let i = 0; i < array.length; i++) {
+            let checking = array[i];
 
-        if (mode === 0 && checking.getName() === name) {
-            toRemoveIndex = i;
-            removed = checking;
+            if (checking.getID() === parseInt(name)) {
+                toRemoveIndex = i;
+                removed = checking;
+            }
         }
+    } else {
+        for (let i = 0; i < array.length; i++) {
+            let checking = array[i];
 
-        if (mode === 1 && checking.getID() === name) {
-            toRemoveIndex = i;
-            removed = checking;
+            if (checking.getName() === name) {
+                toRemoveIndex = i;
+                removed = checking;
+            }
         }
     }
 
@@ -114,7 +125,7 @@ function removeFromArray(name, array, mode) {
         removeFileOrDirectory(removed.getFilePath());
         console.log(`Removed ${removed.toString()}.`);
     } else {
-        console.log(name + " not found to remove!");
+        console.error(name + " not found to remove!");
     }
 
     return array;
