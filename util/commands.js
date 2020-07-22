@@ -10,12 +10,8 @@ function get(object, args) {
 
     return new Promise((resolve, reject) => {
         let result;
-        console.log(object.hasOwnProperty('getData'));
-        console.log(typeof object.prototype);
-        console.log('getData' in object);
 
         if (typeof object.getData === "function") {
-            console.log("Hello)");
             result = object.getData(id);
         }
 

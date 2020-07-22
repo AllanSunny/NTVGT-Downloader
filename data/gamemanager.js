@@ -15,7 +15,7 @@ class GameManager {
     }
 
     //ID must be a number here
-    getDatahh(id) {
+    getData(id) {
         return util.getFromArray(id, this.games, 1);
     }
 

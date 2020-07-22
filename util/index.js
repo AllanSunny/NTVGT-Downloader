@@ -81,7 +81,6 @@ function getFromArray(name, array, mode) {
     }
 
     //If it gets to this point, obj with name not found
-    console.error("That object doesn't exist!");
 }
 
 /**
