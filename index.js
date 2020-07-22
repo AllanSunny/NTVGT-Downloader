@@ -22,16 +22,20 @@ function main() {
 
     //Loop for listening for commands
     input.on("line", (line) => {
-        //console.log(`Input: ${line.trim()}`);
-        if (commandInterpreter.getStatus() === commandInterpreter.statusNames.BUSY) {
+        if (commandInterpreter.isBusy()) {
             //TODO: Allow abort downloading
             console.log(`System is busy, please wait...`);
             input.prompt(true);
         } else {
             commandInterpreter.execute(line.trim())
-                .then(() => input.prompt(true))
+                .then((result) => {
+                    //if (result) {console.log(result.toString());} //TODO: Use as debug
+                    input.prompt(true);
+                })
                 .catch(() => {
                     //TODO
+                    console.log("An error occurred:");
+                    input.prompt(true);
                 });
         }
     });

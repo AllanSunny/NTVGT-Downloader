@@ -7,14 +7,15 @@ class GameManager {
         this.gameCount = 0;
     }
 
-    addGame() {
+    addData() {
         let newGame = new Game(this.gameCount++, this);
 
         this.games.push(newGame);
         console.log(`Added new Game! (ID: ${newGame.getID()})`);
     }
 
-    getGame(id) {
+    //ID must be a number here
+    getDatahh(id) {
         return util.getFromArray(id, this.games, 1);
     }
 
@@ -22,7 +23,7 @@ class GameManager {
         return this.games;
     }
 
-    removeGame(id) {
+    removeData(id) {
         return util.removeFromArray(id, this.games, 1);
     }
 

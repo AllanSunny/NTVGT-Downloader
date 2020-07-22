@@ -20,35 +20,42 @@ class CommandInterpreter {
             this.commands.set(command.name, command);
         }
 
-        //this.commands.get("retrieveNext")();
         console.log(`Currently viewing: ${this.reference.toString()}`);
     }
 
     //Pass in a raw string, parse into array
+    //This will assume that all arguments have been checked for validity by UI
     execute(string) {
-        console.log(string);
         this.status = this.statusNames.BUSY;
 
         return new Promise ((resolve, reject) => {
-            let argumentArray = string.split(",");
-            let toExecute = this.commands.get(argumentArray[0]);
-            argumentArray.shift(); //Anything left is arguments
+            let args = string.split(",");
 
-            //TODO: Invalid command handle won't be needed with UI
+            //First arg is command, rest is parameters
+            let toExecute = this.commands.get(args[0]);
+            args.shift();
             if (toExecute === undefined) {
-                console.log("Oops");
+                console.error("Command not found.");
                 this.status = this.statusNames.READY;
-                resolve();
+                reject();
             }
 
-            //Remove command name from array, rest is arguments
-            toExecute(this.reference, argumentArray)
-                .then(() => {
+            toExecute(this.reference, args)
+                .then((result) => {
+                    if (result) {
+                        this.reference = result;
+                    }
+
+                    console.log(`Currently viewing: ${this.reference.toString()}`);
                     this.status = this.statusNames.READY;
-                    resolve();
+                    resolve(result);
                 })
-                .catch(() => {
-                    //TODO: Error handling
+                //TODO: Error handling
+                .catch((reason) => {
+                    if (reason) {
+                        console.error(reason);
+                    }
+
                     this.status = this.statusNames.READY;
                     reject();
                 });
@@ -59,8 +66,12 @@ class CommandInterpreter {
         return this.reference;
     }
 
-    getStatus() {
-        return this.status;
+    /**
+     * Check if the system is busy processing a command.
+     * @returns {boolean} True if busy, false if not.
+     */
+    isBusy() {
+        return this.status === this.statusNames.BUSY;
     }
 }
 

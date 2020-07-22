@@ -52,6 +52,15 @@ function listToString(array) {
 }
 
 /**
+ * Check if a string only contains the digits 0-9.
+ * @param string The string to check.
+ * @returns {boolean} True if the string is all numbers, false otherwise.
+ */
+function isNumber(string) {
+    return /^\d+$/.test(string);
+}
+
+/**
  * Retrieve a Game, Category, or Song from an array.
  * @param name The name or ID of the object to retrieve.
  * @param array The array the object is stored in.
@@ -72,7 +81,7 @@ function getFromArray(name, array, mode) {
     }
 
     //If it gets to this point, obj with name not found
-    console.log("Category name does not exist!");
+    console.error("That object doesn't exist!");
 }
 
 /**
@@ -147,6 +156,7 @@ function gracefulExit(code) {
 module.exports = {
     titleCase,
     listToString,
+    isNumber,
     getFromArray,
     removeFromArray,
     calculateDuration,

@@ -23,7 +23,7 @@ class Game {
     }
 
     //0 index = category id 0
-    addCategory(name) {
+    addData(name) {
         let newCategory = new Category(name, this.categoryCount++, this);
 
         this.categories.push(newCategory);
@@ -35,7 +35,7 @@ class Game {
      * @param id The name or ID number of the category.
      * @returns {Category} The instance of a category.
      */
-    getCategory(id) {
+    getData(id) {
         if (isNaN(id)) {
             //Not a number, search by name
             return util.getFromArray(id, this.categories, 0);
@@ -44,7 +44,7 @@ class Game {
         }
     }
 
-    removeCategory(id) {
+    removeData(id) {
         if (isNaN(id)) {
             this.categories = util.removeFromArray(id, this.categories, 0);
         } else {
@@ -75,7 +75,11 @@ class Game {
     }
 
     toString() {
-        let result = '"Game ' + (this.id + 1) + " containing categories: ";
+        if (this.categories.length === 0) {
+            return `"Game ${this.id + 1} (ID ${this.id}) with no categories"`;
+        }
+
+        let result = `"Game ${this.id + 1} (ID ${this.id}) containing categories: `;
         result += util.listToString(this.categories) + '"';
 
         return result;

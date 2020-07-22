@@ -29,14 +29,14 @@ class Category {
         return this.game;
     }
 
-    addSong(title, vgTitle, ytLink, startTime, endTime) {
+    addData(title, vgTitle, ytLink, startTime, endTime) {
         let newSong = new Song(this.songCount++, title, vgTitle, ytLink, this, startTime, endTime);
 
         this.songs.push(newSong);
         console.log(`Added ${newSong.toString()}!`);
     }
 
-    getSong(id) {
+    getData(id) {
         if (isNaN(id)) {
             //Not a number, search by name
             return util.getFromArray(id, this.songs, 0);
@@ -45,7 +45,7 @@ class Category {
         }
     }
 
-    removeSong(id) {
+    removeData(id) {
         if (isNaN(id)) {
             this.songs = util.removeFromArray(id, this.songs, 0);
         } else {
