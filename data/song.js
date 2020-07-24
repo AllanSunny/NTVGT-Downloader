@@ -82,6 +82,12 @@ class Song {
 
     async downloadSong() {
         return new Promise((resolve, reject) => {
+            //First make sure the song file doesn't already exist
+            if (util.checkFileOrDirExistence(this.filePath)) {
+                console.log(`*${this.name} - ${this.vgName} is already downloaded!*`);
+                resolve();
+            }
+
             downloader.downloadSong(this)
                 .then(() => downloader.trimSong(this))
                 .then(() => downloader.deleteTemp(this))

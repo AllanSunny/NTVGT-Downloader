@@ -1,5 +1,6 @@
 const fs = require("fs");
 const ytDlUpdater = require("youtube-dl/lib/downloader");
+const util = require("./util/index");
 
 async function initialize() {
     //Promise 1: check youtube-dl existence
@@ -34,14 +35,12 @@ function getYoutubeDlDetails() {
 
 function checkUtilityExistence(path) {
     return new Promise((resolve, reject) => {
-        fs.access(path, (error => {
-            if (error) {
-                console.error(`Could not find ${path}.`);
-                reject();
-            }
-
+        if (!util.checkFileOrDirExistence(path)) {
+            console.error(`Could not find ${path}.`);
+            reject();
+        } else {
             resolve();
-        }));
+        }
     });
 }
 

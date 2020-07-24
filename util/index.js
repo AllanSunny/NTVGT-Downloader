@@ -160,23 +160,31 @@ function removeFromArray(name, array) {
 }
 
 /**
- * Remove a file or a directory.
+ * Check if a file or directory already exists.
+ * @param path The path to the file to check.
+ * @returns True if the file exists, false otherwise.
+ */
+function checkFileOrDirExistence(path) {
+    fs.access(path, (error => {
+        return !error;
+        //Error means file/directory doesn't exist
+    }));
+}
+
+/**
+ * Remove a file or a directory, only if it exists already.
  * @param path The path to the file or directory.
  */
 function removeFileOrDirectory(path) {
-    fs.access(path, (error => {
-        if (!error) {
-            //Check stats on the file to be removed
-            fs.lstat(path, ((err, stats) => {
-                if (stats.isFile()) {
-                    fs.promises.unlink(path);
-                } else { //Is directory
-                    fs.promises.rmdir(path, {recursive: true});
-                }
-            }));
-        }
-        //Error means file/directory doesn't exist, moving on
-    }));
+    if (checkFileOrDirExistence(path)) {
+        fs.lstat(path, ((err, stats) => {
+            if (stats.isFile()) {
+                fs.promises.unlink(path);
+            } else { //Is directory
+                fs.promises.rmdir(path, {recursive: true});
+            }
+        }));
+    }
 }
 
 /**
@@ -198,6 +206,7 @@ module.exports = {
     addLeadingZerosTime,
     getFromArray,
     removeFromArray,
+    checkFileOrDirExistence,
     calculateDuration,
     gracefulExit,
 };
