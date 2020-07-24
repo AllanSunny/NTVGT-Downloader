@@ -39,11 +39,27 @@ function remove(object, args) {
 
 }
 
-function downloadSongs(gameManager) {
-    this.downloadQueue = queue();
-    gameManager.queueDownloads(this);
+//Sole arg is root folder path
+function downloadSongs(gameManager, args) {
+    return new Promise((resolve, reject) => {
+        console.log("Queueing downloads...");
+        this.downloadQueue = queue({concurrency: 3});
+        gameManager.setDestination(args[0]);
+        gameManager.queueDownloads(this);
 
-
+        console.log("Starting downloads...");
+        this.downloadQueue.start((error => {
+            if (error) {
+                console.error("An error occurred during a download:");
+                console.error(error);
+                reject();
+            } else {
+                console.log("Downloads complete!");
+                resolve();
+            }
+        }));
+        //TODO: queue.end when abort
+    });
 }
 
 function exit() {
