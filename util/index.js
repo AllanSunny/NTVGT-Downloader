@@ -32,7 +32,7 @@ function calculateDuration(startTime, endTime) {
 
 /**
  * Parses the elements of an array containing Categories or Songs.
- * @param array The list to parse
+ * @param array The list to parse.
  * @returns {string} A comma-separated string with the list of elements.
  */
 function listToString(array) {
@@ -45,6 +45,34 @@ function listToString(array) {
 
         if (!finalOne) {
             result += ", ";
+        }
+    }
+
+    return result;
+}
+
+/**
+ * Take a timestamp meant for the "mm:ss" format and add leading
+ * zeros to any time value (mins, secs) less than 10.
+ * @param time The timestamp to parse, in a string.
+ * @returns {string} The timestamp in "mm:ss" format.
+ */
+function addLeadingZerosTime(time) {
+    let values = time.split(":");
+    let result = "";
+
+    for (let i = 0; i < values.length; i++) {
+        let finalOne = (i === values.length - 1);
+        let num = parseInt(values[i]);
+
+        if (num < 10) {
+            result += `0${num}`;
+        } else {
+            result += `${num}`;
+        }
+
+        if (!finalOne) {
+            result += ":";
         }
     }
 
@@ -167,6 +195,7 @@ module.exports = {
     titleCase,
     listToString,
     isNumber,
+    addLeadingZerosTime,
     getFromArray,
     removeFromArray,
     calculateDuration,

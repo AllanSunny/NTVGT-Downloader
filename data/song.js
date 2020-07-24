@@ -26,6 +26,8 @@ class Song {
         } else if (startTime.indexOf(":") === -1) {
             let startTimeInt = parseInt(startTime);
             startTime = timeFormat.fromS(startTimeInt);
+        } else { //Clean input
+            startTime = util.addLeadingZerosTime(startTime);
         }
 
         //StartTime is stored in mm:ss format
@@ -40,6 +42,8 @@ class Song {
         } else if (endTime.indexOf(":") === -1) {
             let endTimeInt = parseInt(endTime);
             endTime = timeFormat.fromS(endTimeInt);
+        } else { //Clean input
+            endTime = util.addLeadingZerosTime(endTime);
         }
 
         //EndTime is stored in mm:ss format

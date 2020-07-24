@@ -24,7 +24,7 @@ function main() {
     input.on("line", (line) => {
         if (commandInterpreter.isBusy()) {
             //TODO: Allow abort downloading
-            console.log(`System is busy, please wait...`);
+            console.error("System is busy, please wait...");
             input.prompt(true);
         } else {
             commandInterpreter.execute(line.trim())
