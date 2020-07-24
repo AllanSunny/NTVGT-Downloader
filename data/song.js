@@ -80,26 +80,30 @@ class Song {
         return this.filePath;
     }
 
-    async downloadSong() {
-        return new Promise((resolve, reject) => {
-            //First make sure the song file doesn't already exist
-            if (util.checkFileOrDirExistence(this.filePath)) {
-                console.log(`*${this.name} - ${this.vgName} is already downloaded!*`);
-                resolve();
-            }
-
-            downloader.downloadSong(this)
-                .then(() => downloader.trimSong(this))
-                .then(() => downloader.deleteTemp(this))
-                .then(() => {
-                    console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
-                    resolve();
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
+    queueDownload(func) {
+        func.downloadQueue.push(downloader.downloadJob(this));
     }
+
+    // async downloadSong() {
+    //     return new Promise((resolve, reject) => {
+    //         //First make sure the song file doesn't already exist
+    //         if (util.checkFileOrDirExistence(this.filePath)) {
+    //             console.log(`*${this.name} - ${this.vgName} is already downloaded!*`);
+    //             resolve();
+    //         }
+    //
+    //         downloader.downloadSong(this)
+    //             .then(() => downloader.trimSong(this))
+    //             .then(() => downloader.deleteTemp(this))
+    //             .then(() => {
+    //                 console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
+    //                 resolve();
+    //             })
+    //             .catch((error) => {
+    //                 reject(error);
+    //             });
+    //     });
+    // }
 
     /**
      * Convert the song information into a readable string.

@@ -59,11 +59,17 @@ class Game {
         return this.filePath;
     }
 
-    async downloadSongs() {
+    queueDownloads(func) {
         for (let category of this.categories) {
-            await category.downloadSongs();
+            category.queueDownloads(func);
         }
     }
+
+    // async downloadSongs() {
+    //     for (let category of this.categories) {
+    //         await category.downloadSongs();
+    //     }
+    // }
 
     toString() {
         if (this.categories.length === 0) {

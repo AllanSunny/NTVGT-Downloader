@@ -60,16 +60,26 @@ class Category {
         return this.filePath;
     }
 
-    async downloadSongs() {
-        await fs.promises.mkdir(this.filePath, {recursive: true});
+    queueDownloads(func) {
+        util.createDirectory(this.filePath);
 
         for (let song of this.songs) {
-            await song.downloadSong()
-                .catch((error) => {
-                    console.error(error.stderr);
-                });
+            song.queueDownload(func);
         }
     }
+
+    // async downloadSongs() {
+    //     if (!util.checkFileOrDirExistence(this.filePath)) {
+    //         await fs.promises.mkdir(this.filePath, {recursive: true});
+    //     }
+    //
+    //     for (let song of this.songs) {
+    //         await song.downloadSong()
+    //             .catch((error) => {
+    //                 console.error(error.stderr);
+    //             });
+    //     }
+    // }
 
     toString() {
         if (this.songs.length === 0) {

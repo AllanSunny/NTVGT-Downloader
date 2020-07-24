@@ -33,11 +33,17 @@ class GameManager {
         }
     }
 
-    async downloadSongs() {
+    queueDownloads(func) {
         for (let game of this.games) {
-            await game.downloadSongs();
+            game.queueDownloads(func);
         }
     }
+
+    // async downloadSongs() {
+    //     for (let game of this.games) {
+    //         await game.downloadSongs();
+    //     }
+    // }
 
     toString() {
         let resultArray = [];

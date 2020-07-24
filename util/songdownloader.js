@@ -1,6 +1,28 @@
 const youtubedl = require("youtube-dl");
 const childProcess = require('child_process');
 const fs = require("fs");
+const util = require("./index");
+
+function downloadJob(song) {
+    return new Promise((resolve, reject) => {
+        //First make sure the song file doesn't already exist
+        if (util.checkFileOrDirExistence(song.getFilePath())) {
+            console.log(`*${song.getName()} - ${song.getGameName()} is already downloaded!*`);
+            resolve();
+        }
+
+        downloadSong(song)
+            .then(() => trimSong(song))
+            .then(() => deleteTemp(song))
+            .then(() => {
+                console.log(`*Completed download of ${song.getName()} - ${song.getGameName()}!*`);
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
 
 //Start and end times are in hh:mm:ss format
 function downloadSong(song) {
@@ -47,7 +69,5 @@ function deleteTemp(song) {
 }
 
 module.exports = {
-    downloadSong,
-    trimSong,
-    deleteTemp,
+    downloadJob,
 };

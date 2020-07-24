@@ -1,4 +1,5 @@
 const util = require ("./index");
+const queue = require("queue");
 
 //Object is point of reference, args is name or num (will be in array)
 function get(object, args) {
@@ -38,6 +39,13 @@ function remove(object, args) {
 
 }
 
+function downloadSongs(gameManager) {
+    this.downloadQueue = queue();
+    gameManager.queueDownloads(this);
+
+
+}
+
 function exit() {
     //TODO
     util.gracefulExit(0);
@@ -49,5 +57,5 @@ function getAllCommands() {
 
 module.exports = {
     getAllCommands,
-    commands: [get, previous, getAll, add, remove, exit],
+    commands: [get, previous, getAll, add, remove, downloadSongs, exit],
 };

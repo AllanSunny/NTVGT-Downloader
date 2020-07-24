@@ -52,10 +52,10 @@ function listToString(array) {
 }
 
 /**
- * Take a timestamp meant for the "mm:ss" format and add leading
- * zeros to any time value (mins, secs) less than 10.
+ * Take a timestamp meant for the "hh:mm:ss" format and add leading
+ * zeros to any time value (hrs, mins, secs) less than 10.
  * @param time The timestamp to parse, in a string.
- * @returns {string} The timestamp in "mm:ss" format.
+ * @returns {string} The timestamp in "hh:mm:ss" format.
  */
 function addLeadingZerosTime(time) {
     let values = time.split(":");
@@ -172,6 +172,16 @@ function checkFileOrDirExistence(path) {
 }
 
 /**
+ * Create a directory at a specified path, only if it doesn't exist already.
+ * @param path The path to create the directory at.
+ */
+function createDirectory(path) {
+    if (!checkFileOrDirExistence(path)) {
+        fs.promises.mkdir(path, {recursive: true});
+    }
+}
+
+/**
  * Remove a file or a directory, only if it exists already.
  * @param path The path to the file or directory.
  */
@@ -207,6 +217,7 @@ module.exports = {
     getFromArray,
     removeFromArray,
     checkFileOrDirExistence,
+    createDirectory,
     calculateDuration,
     gracefulExit,
 };
