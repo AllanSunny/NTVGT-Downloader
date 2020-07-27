@@ -6,10 +6,13 @@ const util = require("./index");
 function downloadJob(song) {
     return new Promise((resolve, reject) => {
         //First make sure the song file doesn't already exist
-        if (util.checkFileOrDirExistence(song.getFilePath())) {
-            console.log(`*${song.getName()} - ${song.getGameName()} is already downloaded!*`);
-            resolve();
-        }
+        util.checkFileOrDirExistence(song.getFilePath())
+            .then((exists) => {
+                if (exists) {
+                    console.log(`*${song.getName()} - ${song.getGameName()} is already downloaded!*`);
+                    resolve();
+                }
+            });
 
         downloadSong(song)
             .then(() => trimSong(song))

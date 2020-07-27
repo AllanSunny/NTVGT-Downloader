@@ -19,7 +19,19 @@ function get(object, args) {
 }
 
 function previous(object) {
+    return new Promise((resolve, reject) => {
+        let result;
 
+        if (typeof object.getPrevious === "function") {
+            result = object.getPrevious();
+        }
+
+        if (result) {
+            resolve(result);
+        } else {
+            reject("Could not find that data.");
+        }
+    });
 }
 
 function getAll(object) {
@@ -48,7 +60,7 @@ function downloadSongs(gameManager, args) {
         gameManager.queueDownloads(this);
 
         console.log("Starting downloads...");
-        this.downloadQueue.start((error => {
+        this.downloadQueue.start((error) => {
             if (error) {
                 console.error("An error occurred during a download:");
                 console.error(error);
@@ -57,7 +69,7 @@ function downloadSongs(gameManager, args) {
                 console.log("Downloads complete!");
                 resolve();
             }
-        }));
+        });
         //TODO: queue.end when abort
     });
 }

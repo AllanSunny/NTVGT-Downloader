@@ -64,7 +64,7 @@ function main() {
 
 initialize()
     .catch((error) => {
-        console.error(error);
+        //console.error(error);
         console.error("Failed to initialize!");
         process.exit(1);
     })

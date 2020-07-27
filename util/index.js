@@ -113,7 +113,6 @@ function getFromArray(name, array) {
             }
         }
     }
-
     //If it gets to this point, obj with name not found
 }
 
@@ -162,13 +161,19 @@ function removeFromArray(name, array) {
 /**
  * Check if a file or directory already exists.
  * @param path The path to the file to check.
- * @returns True if the file exists, false otherwise.
+ * @returns {Promise<boolean>} True if the file exists for access,
+ * false otherwise.
  */
 function checkFileOrDirExistence(path) {
-    fs.access(path, (error => {
-        return !error;
-        //Error means file/directory doesn't exist
-    }));
+    return new Promise((resolve, reject) => {
+        fs.access(path, (error) => {
+            if (error) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
+    });
 }
 
 /**
@@ -176,9 +181,18 @@ function checkFileOrDirExistence(path) {
  * @param path The path to create the directory at.
  */
 function createDirectory(path) {
-    if (!checkFileOrDirExistence(path)) {
-        fs.promises.mkdir(path, {recursive: true});
-    }
+    checkFileOrDirExistence(path)
+        .then((exists) => {
+            if (!exists) {
+                fs.promises.mkdir(path, {recursive: true})
+                    .catch((error) => {
+                        console.error(`Failed to create directory ${path}.`);
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+            }
+        });
 }
 
 /**
@@ -186,15 +200,30 @@ function createDirectory(path) {
  * @param path The path to the file or directory.
  */
 function removeFileOrDirectory(path) {
-    if (checkFileOrDirExistence(path)) {
-        fs.lstat(path, ((err, stats) => {
-            if (stats.isFile()) {
-                fs.promises.unlink(path);
-            } else { //Is directory
-                fs.promises.rmdir(path, {recursive: true});
+    checkFileOrDirExistence(path)
+        .then((exists) => {
+            if (exists) {
+                fs.lstat(path, ((err, stats) => {
+                    if (stats.isFile()) {
+                        fs.promises.unlink(path)
+                            .catch((error) => {
+                                console.error(`Failed to remove file ${path}.`);
+                                if (error) {
+                                    console.error(error);
+                                }
+                            });
+                    } else { //Is directory
+                        fs.promises.rmdir(path, {recursive: true})
+                            .catch((error) => {
+                                console.error(`Failed to remove directory ${path}.`);
+                                if (error) {
+                                    console.error(error);
+                                }
+                            });
+                    }
+                }));
             }
-        }));
-    }
+        });
 }
 
 /**

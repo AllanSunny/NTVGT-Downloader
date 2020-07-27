@@ -28,7 +28,7 @@ class CommandInterpreter {
     execute(string) {
         this.status = this.statusNames.BUSY;
 
-        return new Promise ((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let args = string.split(",");
 
             //First arg is command, rest is parameters
@@ -38,6 +38,10 @@ class CommandInterpreter {
                 console.error("Command not found.");
                 this.status = this.statusNames.READY;
                 reject();
+            }
+
+            if (toExecute === this.commands.get('downloadSongs')) {
+                this.reference = this.gameManager;
             }
 
             toExecute(this.reference, args)
