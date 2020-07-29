@@ -53,19 +53,21 @@ function add(object, args) {
 }
 
 function remove(object, args) {
+    return new Promise((resolve, reject) => {
 
+    });
 }
 
 //Sole arg is root folder path
-function downloadSongs(gameManager, args) {
+function download(gameManager, args) {
     return new Promise((resolve, reject) => {
-        console.log("Queueing downloads...");
-        this.downloadQueue = queue({concurrency: 3});
+        console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
+        this.queue = queue({concurrency: 3});
         gameManager.setDestination(args[0]);
         gameManager.queueDownloads(this);
 
         console.log("Starting downloads...");
-        this.downloadQueue.start((error) => {
+        this.queue.start((error) => {
             if (error) {
                 console.error(error);
                 reject("An error occurred during a download.");
@@ -74,7 +76,21 @@ function downloadSongs(gameManager, args) {
                 resolve();
             }
         });
-        //TODO: queue.end when abort
+    });
+}
+
+//Only works if stoppable command is in progress
+//Sole arg here will be the downloadSong function in progress
+function stop(object, args) {
+    let inProgress = args[0];
+
+    return new Promise((resolve, reject) => {
+        if (typeof inProgress !== "function") {
+            resolve(); //Nothing happens
+        }
+
+        inProgress.queue.end();
+        resolve();
     });
 }
 
@@ -87,7 +103,13 @@ function getAllCommands() {
     return module.exports.commands;
 }
 
+function getStoppableCommands() {
+    return module.exports.stoppableCommands;
+}
+
 module.exports = {
     getAllCommands,
-    commands: [get, previous, getAll, add, remove, downloadSongs, exit],
+    getStoppableCommands,
+    commands: [get, previous, getAll, add, remove, download, stop, exit],
+    stoppableCommands: [download],
 };

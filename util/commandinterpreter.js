@@ -12,14 +12,22 @@ class CommandInterpreter {
 
         this.reference = gameManager;
         this.gameManager = gameManager;
+        this.executing = undefined;
 
         //Take all the command functions and map them
-        let commandArray = commands.getAllCommands();
+        let commandList = commands.getAllCommands();
         this.commands = new HashMap();
-        for (let command of commandArray) {
+        for (let command of commandList) {
             this.commands.set(command.name, command);
         }
 
+        let stoppableCommands = commands.getStoppableCommands();
+        this.stoppableCommands = new HashMap();
+        for (let command of stoppableCommands) {
+            this.stoppableCommands.set(command.name, command);
+        }
+
+        //Ready to go!
         console.log(`Currently viewing: ${this.reference.toString()}`);
     }
 
@@ -27,22 +35,32 @@ class CommandInterpreter {
     //This will assume that all arguments have been checked for validity by UI
     execute(string) {
         this.status = this.statusNames.BUSY;
+        let args = string.split(",");
+
+        //First arg is command, rest is parameters
+        let toExecute = this.commands.get(args[0]);
+        args.shift();
+
+        //Downloads must start at the root of the data tree
+        if (toExecute === this.commands.get('downloadSongs')) {
+            this.reference = this.gameManager;
+        }
 
         return new Promise((resolve, reject) => {
-            let args = string.split(",");
-
-            //First arg is command, rest is parameters
-            let toExecute = this.commands.get(args[0]);
-            args.shift();
             if (toExecute === undefined) {
                 this.status = this.statusNames.READY;
                 reject("Command not found.");
             }
 
-            if (toExecute === this.commands.get('downloadSongs')) {
-                this.reference = this.gameManager;
+            if (toExecute === this.commands.get('stop')) {
+                if (!this.stoppableCommands.has(this.executing)) {
+                    reject("There is nothing to stop.");
+                } else {
+                    args[0] = this.executing; //Pass function instance into stop function
+                }
             }
 
+            this.executing = toExecute;
             toExecute(this.reference, args)
                 .then((result) => {
                     if (result) {
@@ -51,16 +69,22 @@ class CommandInterpreter {
 
                     console.log(`Currently viewing: ${this.reference.toString()}`);
                     this.status = this.statusNames.READY;
+                    this.executing = undefined;
                     resolve(result);
                 })
-                //TODO: Error handling
+                //TODO: Error handling?
                 .catch((reason) => {
                     this.status = this.statusNames.READY;
+                    this.executing = undefined;
                     reject(reason);
                 });
         });
     }
 
+    /**
+     * Get the object that is currently being used as a point of reference.
+     * @returns {object} The object the user is currently about to modify.
+     */
     getReference() {
         return this.reference;
     }

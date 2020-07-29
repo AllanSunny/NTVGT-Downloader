@@ -81,7 +81,7 @@ class Song {
     }
 
     queueDownload(func) {
-        func.downloadQueue.push(downloader.downloadJob(this));
+        func.queue.push(downloader.downloadJob(this));
     }
 
     // async downloadSong() {
