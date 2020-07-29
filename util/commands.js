@@ -41,10 +41,15 @@ function getAll(object) {
 //New Song: add, accumula town, pokemon black/white, link, time, time
 //Responsibility of parsing argument array delegated to data objects (for additions only)
 function add(object, args) {
-    return new Promise((resolve) => {
-        object.addData(args);
-        resolve();
-    })
+    return new Promise((resolve, reject) => {
+        object.addData(args)
+            .then(() => {
+                resolve();
+            })
+            .catch((reason) => {
+                reject(reason);
+            })
+    });
 }
 
 function remove(object, args) {
@@ -62,9 +67,8 @@ function downloadSongs(gameManager, args) {
         console.log("Starting downloads...");
         this.downloadQueue.start((error) => {
             if (error) {
-                console.error("An error occurred during a download:");
                 console.error(error);
-                reject();
+                reject("An error occurred during a download.");
             } else {
                 console.log("Downloads complete!");
                 resolve();

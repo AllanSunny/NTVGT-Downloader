@@ -35,9 +35,8 @@ class CommandInterpreter {
             let toExecute = this.commands.get(args[0]);
             args.shift();
             if (toExecute === undefined) {
-                console.error("Command not found.");
                 this.status = this.statusNames.READY;
-                reject();
+                reject("Command not found.");
             }
 
             if (toExecute === this.commands.get('downloadSongs')) {
@@ -56,12 +55,8 @@ class CommandInterpreter {
                 })
                 //TODO: Error handling
                 .catch((reason) => {
-                    if (reason) {
-                        console.error(reason);
-                    }
-
                     this.status = this.statusNames.READY;
-                    reject();
+                    reject(reason);
                 });
         });
     }

@@ -7,11 +7,14 @@ class GameManager {
         this.gameCount = 0;
     }
 
+    //No arguments necessary, games can be added anytime
     addData() {
-        let newGame = new Game(this.gameCount++, this);
-
-        this.games.push(newGame);
-        console.log(`Added new Game! (ID: ${newGame.getID()})`);
+        return new Promise((resolve) => {
+            let newGame = new Game(this.gameCount++, this);
+            this.games.push(newGame);
+            console.log(`Added new Game! (ID: ${newGame.getID()})`);
+            resolve();
+        });
     }
 
     //ID must be a number here

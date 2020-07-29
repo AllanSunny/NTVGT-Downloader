@@ -22,12 +22,21 @@ class Game {
         return this.gameManager;
     }
 
-    //0 index = category id 0
-    addData(name) {
-        let newCategory = new Category(name, this.categoryCount++, this);
+    //Only one arg: category name
+    addData(args) {
+        return new Promise((resolve, reject) => {
+            let newName = util.titleCase(args[0]);
 
-        this.categories.push(newCategory);
-        console.log(`Added new Category "${newCategory.getName()}"!`);
+            if (this.getData(newName) !== undefined) {
+                reject("This category name already exists!");
+            }
+
+            let newCategory = new Category(newName, this.categoryCount++, this);
+            this.categories.push(newCategory);
+            console.log(`Added new Category "${newCategory.getName()}"!`);
+            resolve();
+        });
+
     }
 
     /**

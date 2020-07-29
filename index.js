@@ -32,9 +32,10 @@ function main() {
                     //if (result) {console.log(result.toString());} //TODO: Use as debug
                     input.prompt(true);
                 })
-                .catch(() => {
+                .catch((reason) => {
                     //TODO
                     console.log("An error occurred:");
+                    console.log(reason);
                     input.prompt(true);
                 });
         }

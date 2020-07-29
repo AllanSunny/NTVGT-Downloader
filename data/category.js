@@ -1,12 +1,11 @@
 const util = require("../util/index");
 const {Song} = require("./song");
-const fs = require("fs");
 const sanitizer = require("sanitize-filename");
 
 class Category {
     constructor(name, id, game) {
         this.id = id;
-        this.name = util.titleCase(name);
+        this.name = name;
         this.songCount = 0;
         this.songs = [];
         this.filePath = "";
@@ -29,11 +28,22 @@ class Category {
         return this.game;
     }
 
-    addData(title, vgTitle, ytLink, startTime, endTime) {
-        let newSong = new Song(this.songCount++, title, vgTitle, ytLink, this, startTime, endTime);
+    //Args: title, vgTitle, ytLink, startTime, endTime
+    addData(args) {
+        return new Promise((resolve, reject) => {
+            let newSongTitle = util.titleCase(args[0]);
 
-        this.songs.push(newSong);
-        console.log(`Added ${newSong.toString()}!`);
+            if (this.getData(newSongTitle) !== undefined) {
+                reject("This song has already been added!");
+            }
+
+            let newSong = new Song(this.songCount++, newSongTitle,
+                util.titleCase(args[1]), args[2], this, args[3], args[4]);
+
+            this.songs.push(newSong);
+            console.log(`Added ${newSong.toString()}!`);
+            resolve();
+        });
     }
 
     getData(id) {

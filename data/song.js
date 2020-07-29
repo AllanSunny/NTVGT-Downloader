@@ -8,8 +8,8 @@ class Song {
     constructor(id, name, vgName, ytLink, category, startTime, endTime) {
         //StartTime and EndTime can be in seconds or MM:SS (also optional)- should be strings
         this.id = id;
-        this.name = util.titleCase(name);
-        this.vgName = util.titleCase(vgName);
+        this.name = name;
+        this.vgName = vgName;
         this.category = category;
         this.ytLink = ytLink;
 
