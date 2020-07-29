@@ -23,9 +23,20 @@ function main() {
     //Loop for listening for commands
     input.on("line", (line) => {
         if (commandInterpreter.isBusy()) {
-            //TODO: Allow abort downloading
-            console.error("System is busy, please wait...");
-            input.prompt(true);
+            if (line.trim() === 'stop') {
+                commandInterpreter.execute(line.trim())
+                    .then(() => {
+                        input.prompt(true);
+                    })
+                    .catch((reason) => {
+                        console.log("An error occurred:");
+                        console.log(reason);
+                        input.prompt(true);
+                    });
+            } else {
+                console.error("System is busy, please wait...");
+                input.prompt(true);
+            }
         } else {
             commandInterpreter.execute(line.trim())
                 .then((result) => {
@@ -33,8 +44,8 @@ function main() {
                     input.prompt(true);
                 })
                 .catch((reason) => {
-                    console.log("An error occurred:");
-                    console.log(reason);
+                    console.error("An error occurred:");
+                    console.error(reason);
                     input.prompt(true);
                 });
         }

@@ -3,29 +3,35 @@ const childProcess = require('child_process');
 const fs = require("fs");
 const util = require("./index");
 
-function downloadJob(song) {
-    return new Promise((resolve, reject) => {
-        //First make sure the song file doesn't already exist
-        util.checkFileOrDirExistence(song.getFilePath())
-            .then((exists) => {
-                if (exists) {
-                    console.log(`*${song.getName()} - ${song.getGameName()} is already downloaded!*`);
-                    resolve();
-                }
-            });
+class DownloadJob {
+    constructor(song) {
+        this.song = song;
+    }
 
-        downloadSong(song)
-            .then(() => trimSong(song))
-            .then(() => deleteTemp(song))
-            .then(() => {
-                console.log(`*Completed download of ${song.getName()} - ${song.getGameName()}!*`);
+    async downloadSong() {
+        //First make sure the song file doesn't already exist
+        let alreadyExists = await util.checkFileOrDirExistence(this.song.getFilePath());
+
+        return new Promise((resolve, reject) => {
+            if (alreadyExists) {
+                console.log(`*${this.song.getName()} - ${this.song.getGameName()} is already downloaded!*`);
                 resolve();
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+            } else {
+                downloadSong(this.song)
+                    .then(() => trimSong(this.song))
+                    .then(() => deleteTemp(this.song))
+                    .then(() => {
+                        console.log(`*Completed download of ${this.song.getName()} - ${this.song.getGameName()}!*`);
+                        resolve();
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            }
+        });
+    }
 }
+
 
 //Start and end times are in hh:mm:ss format
 function downloadSong(song) {
@@ -72,5 +78,5 @@ function deleteTemp(song) {
 }
 
 module.exports = {
-    downloadJob,
+    DownloadJob,
 };

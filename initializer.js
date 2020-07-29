@@ -12,7 +12,7 @@ async function initialize() {
 
     //Promise 3: update youtube-dl
     //TODO: Maybe try to avoid doing this every time?
-    await updateYoutubeDl();
+    //await updateYoutubeDl();
 
     //Promise 4: load existing games
     //TODO: Implement after save/load system

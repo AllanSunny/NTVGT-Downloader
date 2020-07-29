@@ -1,5 +1,5 @@
 const util = require ("./index");
-const queue = require("queue");
+const pLimit = require("p-limit");
 
 //Object is point of reference, args is name or num (will be in array)
 function get(object, args) {
@@ -60,22 +60,25 @@ function remove(object, args) {
 
 //Sole arg is root folder path
 function download(gameManager, args) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
-        this.queue = queue({concurrency: 3});
+        this.queue = [];
+        this.limiter = pLimit(3);
         gameManager.setDestination(args[0]);
         gameManager.queueDownloads(this);
 
-        console.log("Starting downloads...");
-        this.queue.start((error) => {
-            if (error) {
-                console.error(error);
-                reject("An error occurred during a download.");
-            } else {
+        //console.log("Starting downloads...");
+        await Promise.all(this.queue)
+            .then(() => {
                 console.log("Downloads complete!");
                 resolve();
-            }
-        });
+            })
+            .catch((error) => {
+                if (error) {
+                    console.error(error);
+                    reject("An error occurred during a download.");
+                }
+            });
     });
 }
 
@@ -89,7 +92,9 @@ function stop(object, args) {
             resolve(); //Nothing happens
         }
 
-        inProgress.queue.end();
+        inProgress.limiter.clearQueue();
+        //TODO: Find and kill any running youtube-dl processes
+        console.log("Downloads aborted.");
         resolve();
     });
 }
@@ -100,16 +105,16 @@ function exit() {
 }
 
 function getAllCommands() {
-    return module.exports.commands;
+    return [get, previous, getAll, add, remove, download, stop, exit];
 }
 
 function getStoppableCommands() {
-    return module.exports.stoppableCommands;
+    return [download];
 }
 
 module.exports = {
     getAllCommands,
     getStoppableCommands,
-    commands: [get, previous, getAll, add, remove, download, stop, exit],
-    stoppableCommands: [download],
+    //commands: [get, previous, getAll, add, remove, download, stop, exit],
+    //stoppableCommands: [download],
 };

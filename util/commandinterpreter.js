@@ -41,8 +41,9 @@ class CommandInterpreter {
         let toExecute = this.commands.get(args[0]);
         args.shift();
 
+        //TODO: Convert to switch case?
         //Downloads must start at the root of the data tree
-        if (toExecute === this.commands.get('downloadSongs')) {
+        if (toExecute === this.commands.get('download')) {
             this.reference = this.gameManager;
         }
 
@@ -54,6 +55,7 @@ class CommandInterpreter {
 
             if (toExecute === this.commands.get('stop')) {
                 if (!this.stoppableCommands.has(this.executing)) {
+                    this.status = this.statusNames.READY;
                     reject("There is nothing to stop.");
                 } else {
                     args[0] = this.executing; //Pass function instance into stop function
@@ -67,9 +69,9 @@ class CommandInterpreter {
                         this.reference = result;
                     }
 
-                    console.log(`Currently viewing: ${this.reference.toString()}`);
                     this.status = this.statusNames.READY;
                     this.executing = undefined;
+                    console.log(`Currently viewing: ${this.reference.toString()}`);
                     resolve(result);
                 })
                 //TODO: Error handling?

@@ -1,5 +1,5 @@
 const util = require("../util/index");
-const downloader = require("../util/songdownloader");
+const {DownloadJob} = require("../util/songdownloader");
 const timeFormat = require("hh-mm-ss");
 const sanitizer = require("sanitize-filename");
 
@@ -81,7 +81,9 @@ class Song {
     }
 
     queueDownload(func) {
-        func.queue.push(downloader.downloadJob(this));
+        func.queue.push(func.limiter(() => {
+            new DownloadJob(this).downloadSong();
+        }));
     }
 
     // async downloadSong() {
