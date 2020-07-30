@@ -54,7 +54,7 @@ class CommandInterpreter {
             }
 
             if (toExecute === this.commands.get('stop')) {
-                if (!this.stoppableCommands.has(this.executing)) {
+                if (!this.stoppableCommands.has(this.executing.name)) {
                     this.status = this.statusNames.READY;
                     reject("There is nothing to stop.");
                 } else {

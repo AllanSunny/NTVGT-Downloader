@@ -81,8 +81,11 @@ class Song {
     }
 
     queueDownload(func) {
-        func.queue.push(func.limiter(() => {
-            new DownloadJob(this).downloadSong();
+        func.queue.push(func.limiter(async () => {
+            await new DownloadJob(this).downloadSong()
+                .catch((error) => {
+                    console.error(error.toString());
+                });
         }));
     }
 

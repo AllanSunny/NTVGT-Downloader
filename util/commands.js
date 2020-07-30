@@ -63,7 +63,7 @@ function download(gameManager, args) {
     return new Promise(async (resolve, reject) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
         this.queue = [];
-        this.limiter = pLimit(3);
+        this.limiter = pLimit(2);
         gameManager.setDestination(args[0]);
         gameManager.queueDownloads(this);
 
@@ -72,12 +72,6 @@ function download(gameManager, args) {
             .then(() => {
                 console.log("Downloads complete!");
                 resolve();
-            })
-            .catch((error) => {
-                if (error) {
-                    console.error(error);
-                    reject("An error occurred during a download.");
-                }
             });
     });
 }
