@@ -54,7 +54,7 @@ function add(object, args) {
 
 function remove(object, args) {
     return new Promise((resolve, reject) => {
-
+        //TODO
     });
 }
 
@@ -83,13 +83,13 @@ function stop(object, args) {
 
     return new Promise((resolve, reject) => {
         if (typeof inProgress !== "function") {
-            resolve(); //Nothing happens
+            resolve(); //Nothing happens if nothing in progress
+        } else {
+            inProgress.limiter.clearQueue();
+            //TODO: Find and kill any running youtube-dl processes
+            console.log("Downloads aborted.");
+            resolve();
         }
-
-        inProgress.limiter.clearQueue();
-        //TODO: Find and kill any running youtube-dl processes
-        console.log("Downloads aborted.");
-        resolve();
     });
 }
 
