@@ -32,17 +32,20 @@ class Category {
     addData(args) {
         return new Promise((resolve, reject) => {
             let newSongTitle = util.titleCase(args[0]);
+            let newSongGame = util.titleCase(args[1]);
+            let existingCheck = this.getData(newSongTitle);
 
-            if (this.getData(newSongTitle) !== undefined) {
+            //Song exists with the same game name already
+            if (existingCheck !== undefined && existingCheck.getGameName() === newSongGame) {
                 reject("This song has already been added!");
+            } else {
+                let newSong = new Song(this.songCount++, newSongTitle,
+                    newSongGame, args[2], this, args[3], args[4]);
+
+                this.songs.push(newSong);
+                console.log(`Added ${newSong.toString()}!`);
+                resolve();
             }
-
-            let newSong = new Song(this.songCount++, newSongTitle,
-                util.titleCase(args[1]), args[2], this, args[3], args[4]);
-
-            this.songs.push(newSong);
-            console.log(`Added ${newSong.toString()}!`);
-            resolve();
         });
     }
 

@@ -29,12 +29,12 @@ class Game {
 
             if (this.getData(newName) !== undefined) {
                 reject("This category name already exists!");
+            } else {
+                let newCategory = new Category(newName, this.categoryCount++, this);
+                this.categories.push(newCategory);
+                console.log(`Added new Category "${newCategory.getName()}"!`);
+                resolve();
             }
-
-            let newCategory = new Category(newName, this.categoryCount++, this);
-            this.categories.push(newCategory);
-            console.log(`Added new Category "${newCategory.getName()}"!`);
-            resolve();
         });
 
     }
