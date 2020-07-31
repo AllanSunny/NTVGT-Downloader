@@ -36,17 +36,12 @@ class GameManager {
         }
     }
 
-    queueDownloads(task) {
+    //JobQueue is the queue all jobs will be added to
+    queueDownloads(jobQueue) {
         for (let game of this.games) {
-            game.queueDownloads(task);
+            game.queueDownloads(jobQueue);
         }
     }
-
-    // async downloadSongs() {
-    //     for (let game of this.games) {
-    //         await game.downloadSongs();
-    //     }
-    // }
 
     toString() {
         let resultArray = [];

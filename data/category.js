@@ -73,26 +73,13 @@ class Category {
         return this.filePath;
     }
 
-    queueDownloads(task) {
+    queueDownloads(jobQueue) {
         util.createDirectory(this.filePath);
 
         for (let song of this.songs) {
-            song.queueDownload(task);
+            song.queueDownload(jobQueue);
         }
     }
-
-    // async downloadSongs() {
-    //     if (!util.checkFileOrDirExistence(this.filePath)) {
-    //         await fs.promises.mkdir(this.filePath, {recursive: true});
-    //     }
-    //
-    //     for (let song of this.songs) {
-    //         await song.downloadSong()
-    //             .catch((error) => {
-    //                 console.error(error.stderr);
-    //             });
-    //     }
-    // }
 
     toString() {
         if (this.songs.length === 0) {

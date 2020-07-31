@@ -78,24 +78,14 @@ function download(object, args) {
 function stop(object, args) {
     let inProgress = object.getCancellableTask();
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise( (resolve, reject) => {
         if (inProgress.limiter.pendingCount !== 0) {
             inProgress.limiter.clearQueue();
         }
 
-        switch (inProgress.name) {
-            case 'download':
-                await util.killAllProcesses('youtube-dl')
-                    .catch((reason) => {
-                        reject(reason);
-                    });
-                    break;
-                default:
-                    break;
-            }
-
+        inProgress.killProcesses();
+        //TODO: Go through entire file structure and clean up any .part and .ytdl files
         console.log("Processes aborted.");
-        //GameManager goes back to being reference to maintain user view
         resolve(object.getGameManager());
     });
 }
@@ -116,6 +106,4 @@ function getStoppableCommands() {
 module.exports = {
     getAllCommands,
     getStoppableCommands,
-    //commands: [get, previous, getAll, add, remove, download, stop, exit],
-    //stoppableCommands: [download],
 };

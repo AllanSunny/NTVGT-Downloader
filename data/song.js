@@ -84,35 +84,17 @@ class Song {
         return this.filePath;
     }
 
-    queueDownload(task) {
-        task.queue.push(task.limiter(async () => {
-            await new DownloadJob(this).downloadSong()
+    queueDownload(jobQueue) {
+        jobQueue.queue.push(jobQueue.limiter(async () => {
+            let downloadJob = new DownloadJob(this);
+            jobQueue.jobs.push(downloadJob);
+
+            await downloadJob.execute()
                 .catch((error) => {
                     console.error(error.toString());
                 });
         }));
     }
-
-    // async downloadSong() {
-    //     return new Promise((resolve, reject) => {
-    //         //First make sure the song file doesn't already exist
-    //         if (util.checkFileOrDirExistence(this.filePath)) {
-    //             console.log(`*${this.name} - ${this.vgName} is already downloaded!*`);
-    //             resolve();
-    //         }
-    //
-    //         downloader.downloadSong(this)
-    //             .then(() => downloader.trimSong(this))
-    //             .then(() => downloader.deleteTemp(this))
-    //             .then(() => {
-    //                 console.log(`*Completed download of ${this.name} - ${this.vgName}!*`);
-    //                 resolve();
-    //             })
-    //             .catch((error) => {
-    //                 reject(error);
-    //             });
-    //     });
-    // }
 
     /**
      * Convert the song information into a readable string.

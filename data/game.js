@@ -68,17 +68,11 @@ class Game {
         return this.filePath;
     }
 
-    queueDownloads(task) {
+    queueDownloads(jobQueue) {
         for (let category of this.categories) {
-            category.queueDownloads(task);
+            category.queueDownloads(jobQueue);
         }
     }
-
-    // async downloadSongs() {
-    //     for (let category of this.categories) {
-    //         await category.downloadSongs();
-    //     }
-    // }
 
     toString() {
         if (this.categories.length === 0) {

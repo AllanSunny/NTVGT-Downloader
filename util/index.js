@@ -238,17 +238,17 @@ function killAllProcesses(name) {
                 reject(`Failed to find process ${name}.`);
             }
 
-            resultList.forEach((process) => {
+            for (let process of resultList) {
                 if (process) {
                     processLookup.kill(process.pid, 'SIGKILL', (error) => {
                         if (error) {
-                            // Process ended on its own
+                            console.log(`Process ID ${process.pid} was not found.`);
                         } else {
-                            console.log('Process %s has been killed!', process.pid);
+                            console.log(`Process ID ${process.pid} was stopped.`);
                         }
                     });
                 }
-            });
+            }
 
             resolve();
         });
