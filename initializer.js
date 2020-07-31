@@ -1,36 +1,19 @@
-const fs = require("fs");
-const ytDlUpdater = require("youtube-dl/lib/downloader");
+const childProcess = require('child_process');
 const util = require("./util/index");
 
 async function initialize() {
-    //Promise 1: check youtube-dl existence
-    let details = await getYoutubeDlDetails();
-    await checkUtilityExistence(details.path);
+    //Promise 1: check youtube-dl and config existence
+    await checkUtilityExistence("./util/downloadutils/youtube-dl.exe");
+    await checkUtilityExistence("./util/downloadutils/ytdlconfig.txt");
 
     //Promise 2: check ffmpeg existence
-    await checkUtilityExistence("./util/FFMPEG/ffmpeg.exe");
+    await checkUtilityExistence("./util/downloadutils/ffmpeg.exe");
 
     //Promise 3: update youtube-dl
-    //TODO: Maybe try to avoid doing this every time?
-    //await updateYoutubeDl();
+    await updateYoutubeDl();
 
     //Promise 4: load existing games
     //TODO: Implement after save/load system
-}
-
-//Try to get details of youtube-dl
-function getYoutubeDlDetails() {
-    return new Promise((resolve, reject) => {
-        console.log("Getting youtube-dl details...");
-        fs.readFile("./node_modules/youtube-dl/bin/details", (err, data) => {
-            if (err) {
-                console.error("Could not get youtube-dl details.");
-                reject();
-            }
-
-            resolve(JSON.parse(data.toString()));
-        });
-    });
 }
 
 function checkUtilityExistence(path) {
@@ -44,18 +27,21 @@ function checkUtilityExistence(path) {
     });
 }
 
+//The utility will not update if it is already up to date
 function updateYoutubeDl() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         console.log("Updating youtube-dl...");
-        ytDlUpdater("./node_modules/youtube-dl/bin", (error, done) => {
-            if (error) { //A graceful death
-                console.error("Could not update youtube-dl.");
-                reject();
-            } else {
-                console.log("Updated youtube-dl.");
-                resolve();
-            }
-        });
+        await childProcess.execFile('./util/downloadutils/youtube-dl.exe', ['-U'],
+            (error, stdout, stderr) => {
+                if (error) {
+                    console.error("Could not update youtube-dl.");
+                    reject(error);
+                } else {
+                    console.log(stdout);
+                    console.log(`Updated youtube-dl!`);
+                    resolve();
+                }
+            });
     });
 }
 

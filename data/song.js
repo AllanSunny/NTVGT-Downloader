@@ -54,12 +54,16 @@ class Song {
         return this.id;
     }
 
+    getName() {
+        return this.name;
+    }
+
     getGameName() {
         return this.vgName;
     }
 
-    getName() {
-        return this.name;
+    getYTLink() {
+        return this.ytLink;
     }
 
     getPrevious() {
@@ -73,7 +77,7 @@ class Song {
 
     //File format is m4a
     setFilePath(previous) {
-        this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}.m4a`;
+        this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}.mp3`;
     }
 
     getFilePath() {

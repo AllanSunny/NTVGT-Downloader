@@ -1,4 +1,6 @@
 .idea
 node_modules
-util/FFMPEG
+util/downloadutils/ffmpeg.exe
+util/downloadutils/youtube-dl.exe
 test
+undefined

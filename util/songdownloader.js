@@ -1,4 +1,3 @@
-const youtubedl = require("youtube-dl");
 const childProcess = require('child_process');
 const fs = require("fs");
 const util = require("./index");
@@ -35,22 +34,23 @@ class DownloadJob {
 
 //Start and end times are in hh:mm:ss format
 function downloadSong(song) {
-    return new Promise((resolve, reject) => {
-        let video = youtubedl(song.ytLink, ['-f', 'm4a']);
+    return new Promise(async (resolve, reject) => {
+        console.log(`Downloading audio for "${song.getName()} - ${song.getGameName()}"...`);
 
-        video.on('info', () => {
-            console.log(`Downloading audio for "${song.getName()} - ${song.getGameName()}"...`);
-            video.pipe(fs.createWriteStream(`${song.getFilePath()} (temp)`));
-        });
-
-        video.on('error', (error) => {
-            console.error("An error occurred while trying to download a song.");
-            reject(error);
-        });
-        video.on('end', () => {
-            console.log(`Downloaded audio for "${song.getName()} - ${song.getGameName()}"!`);
-            resolve();
-        });
+        await childProcess.execFile('./util/downloadutils/youtube-dl.exe',
+            ['-o', `${song.getFilePath()} (temp)`,
+                '--config-location', './util/downloadutils/ytdlconfig.txt',
+                song.getYTLink()],
+            ((error, stdout, stderr) => {
+                if (error) {
+                    console.error("An error occurred while trying to download a song.");
+                    reject(error);
+                } else {
+                    console.log(stdout);
+                    console.log(`Downloaded audio for "${song.getName()} - ${song.getGameName()}"!`);
+                    resolve();
+                }
+            }));
     });
 }
 
@@ -59,9 +59,13 @@ function trimSong(song) {
     return new Promise(resolve => {
         console.log(`Trimming audio for "${song.getName()} - ${song.getGameName()}"...`);
 
-        childProcess.execFile('./util/FFMPEG/ffmpeg.exe', ['-hide_banner', '-y', '-loglevel', 'panic',
-                '-i', `${song.getFilePath()} (temp)`, '-ss', song.startTime, '-t', song.duration,
-                '-c:v', 'copy', '-c:a', 'copy', `${song.getFilePath()}`],
+        childProcess.execFile('./util/downloadutils/ffmpeg.exe',
+            ['-hide_banner', '-y',
+                '-loglevel', 'panic',
+                '-i', `${song.getFilePath()} (temp)`,
+                '-ss', song.startTime, '-t', song.duration,
+                '-c:v', 'copy', '-c:a', 'libmp3lame',
+                '-q:a', '2', `${song.getFilePath()}`],
             () => {
             console.log(`Trimmed audio for "${song.getName()} - ${song.getGameName()}"!`);
             resolve();
