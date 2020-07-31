@@ -1,6 +1,5 @@
 const timeFormat = require("hh-mm-ss");
 const fs = require("fs");
-const processLookup = require("ps-node");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -228,34 +227,6 @@ function removeFileOrDirectory(path) {
 }
 
 /**
- * Kill all running processes with a specific name.
- * @param name The name of the process to find.
- */
-function killAllProcesses(name) {
-    return new Promise((resolve, reject) => {
-        processLookup.lookup({command: name}, (error, resultList) => {
-            if (error) {
-                reject(`Failed to find process ${name}.`);
-            }
-
-            for (let process of resultList) {
-                if (process) {
-                    processLookup.kill(process.pid, 'SIGKILL', (error) => {
-                        if (error) {
-                            console.log(`Process ID ${process.pid} was not found.`);
-                        } else {
-                            console.log(`Process ID ${process.pid} was stopped.`);
-                        }
-                    });
-                }
-            }
-
-            resolve();
-        });
-    });
-}
-
-/**
  * Exit the function gracefully by saving running data before termination.
  * @param code The code to terminate with. (0 is normal, 1 is error)
  */
@@ -277,6 +248,5 @@ module.exports = {
     checkFileOrDirExistence,
     createDirectory,
     calculateDuration,
-    killAllProcesses,
     gracefulExit,
 };
