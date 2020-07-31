@@ -1,5 +1,5 @@
 const util = require ("./index");
-const pLimit = require("p-limit");
+const {DownloadJobQueue} = require("./songdownloader");
 
 //Object is point of reference, args is name or num (will be in array)
 function get(object, args) {
@@ -58,38 +58,45 @@ function remove(object, args) {
     });
 }
 
-//Sole arg is root folder path
-function download(gameManager, args) {
+//Object passed in will be CommandInterpreter, sole arg is download location
+function download(object, args) {
     return new Promise(async (resolve, reject) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
-        this.queue = [];
-        this.limiter = pLimit(2);
-        gameManager.setDestination(args[0]);
-        gameManager.queueDownloads(this);
+        let downloadJobQueue = new DownloadJobQueue(object.getGameManager(), this.name);
+        object.setCancellableTask(downloadJobQueue);
 
-        //console.log("Starting downloads...");
-        await Promise.all(this.queue)
-            .then(() => {
-                console.log("Downloads complete!");
-                resolve();
-            });
+        await downloadJobQueue.execute(args[0]);
+        //Errors will be handled individually
+
+        //GameManager goes back to being reference to maintain user view
+        resolve(object.getGameManager());
     });
 }
 
 //Only works if stoppable command is in progress
-//Sole arg here will be the downloadSong function in progress
+//Object will be CommandInterpreter
 function stop(object, args) {
-    let inProgress = args[0];
+    let inProgress = object.getCancellableTask();
 
-    return new Promise((resolve, reject) => {
-        if (typeof inProgress !== "function") {
-            resolve(); //Nothing happens if nothing in progress
-        } else {
+    return new Promise(async (resolve, reject) => {
+        if (inProgress.limiter.pendingCount !== 0) {
             inProgress.limiter.clearQueue();
-            //TODO: Find and kill any running youtube-dl processes
-            console.log("Downloads aborted.");
-            resolve();
         }
+
+        switch (inProgress.name) {
+            case 'download':
+                await util.killAllProcesses('youtube-dl')
+                    .catch((reason) => {
+                        reject(reason);
+                    });
+                    break;
+                default:
+                    break;
+            }
+
+        console.log("Processes aborted.");
+        //GameManager goes back to being reference to maintain user view
+        resolve(object.getGameManager());
     });
 }
 

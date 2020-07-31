@@ -73,11 +73,11 @@ class Category {
         return this.filePath;
     }
 
-    queueDownloads(func) {
+    queueDownloads(task) {
         util.createDirectory(this.filePath);
 
         for (let song of this.songs) {
-            song.queueDownload(func);
+            song.queueDownload(task);
         }
     }
 

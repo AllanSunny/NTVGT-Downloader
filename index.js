@@ -1,6 +1,5 @@
 const util = require("./util/index");
 const initializer = require("./initializer");
-const {GameManager} = require("./data/gamemanager");
 const {CommandInterpreter} = require("./util/commandinterpreter");
 const readline = require("readline");
 
@@ -10,8 +9,7 @@ async function initialize() {
 
 //TODO: Data IO
 function main() {
-    let gameManager = new GameManager(); //TODO: This might not need to be here
-    let commandInterpreter = new CommandInterpreter(gameManager);
+    let commandInterpreter = new CommandInterpreter();
     let input = readline.createInterface({
         input: process.stdin,
         output: process.stdout,

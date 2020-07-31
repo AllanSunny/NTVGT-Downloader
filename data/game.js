@@ -68,9 +68,9 @@ class Game {
         return this.filePath;
     }
 
-    queueDownloads(func) {
+    queueDownloads(task) {
         for (let category of this.categories) {
-            category.queueDownloads(func);
+            category.queueDownloads(task);
         }
     }
 

@@ -36,9 +36,9 @@ class GameManager {
         }
     }
 
-    queueDownloads(func) {
+    queueDownloads(task) {
         for (let game of this.games) {
-            game.queueDownloads(func);
+            game.queueDownloads(task);
         }
     }
 

@@ -1,6 +1,7 @@
 const childProcess = require('child_process');
 const fs = require("fs");
 const util = require("./index");
+const pLimit = require("p-limit");
 
 class DownloadJob {
     constructor(song) {
@@ -31,6 +32,27 @@ class DownloadJob {
     }
 }
 
+class DownloadJobQueue {
+    constructor(gameManager, name) {
+        this.name = name; //The name of the function that spawned this job
+        this.queue = [];
+        this.limiter = pLimit(2);
+        this.gameManager = gameManager;
+    }
+
+    execute(destination) {
+        return new Promise(async (resolve, reject) => {
+            this.gameManager.setDestination(destination);
+            this.gameManager.queueDownloads(this);
+
+            await Promise.all(this.queue)
+                .then(() => {
+                    console.log("Downloads complete!");
+                    resolve();
+                });
+        });
+    }
+}
 
 //Start and end times are in hh:mm:ss format
 function downloadSong(song) {
@@ -83,4 +105,5 @@ function deleteTemp(song) {
 
 module.exports = {
     DownloadJob,
+    DownloadJobQueue,
 };

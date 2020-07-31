@@ -84,8 +84,8 @@ class Song {
         return this.filePath;
     }
 
-    queueDownload(func) {
-        func.queue.push(func.limiter(async () => {
+    queueDownload(task) {
+        task.queue.push(task.limiter(async () => {
             await new DownloadJob(this).downloadSong()
                 .catch((error) => {
                     console.error(error.toString());
