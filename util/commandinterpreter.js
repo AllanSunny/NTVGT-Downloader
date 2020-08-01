@@ -3,13 +3,14 @@ const {HashMap} = require("hashmap");
 const {GameManager} = require("../data/gamemanager");
 
 class CommandInterpreter {
-    constructor() {
+    constructor(splitter) {
         this.statusNames = {
             READY: Symbol("Ready"),
             BUSY: Symbol("Busy"),
         };
 
         this.status = this.statusNames.READY;
+        this.splitter = splitter; //The character used to separate command arguments in a line
 
         let manager = new GameManager();
         this.reference = manager;
@@ -39,7 +40,7 @@ class CommandInterpreter {
     //This will assume that all arguments have been checked for validity by UI
     execute(string) {
         this.status = this.statusNames.BUSY;
-        let args = string.split(",");
+        let args = string.split(this.splitter);
 
         //First arg is command, rest is parameters for it
         let toExecute = this.commands.get(args[0]);

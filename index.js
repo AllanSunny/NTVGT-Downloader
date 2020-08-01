@@ -9,7 +9,7 @@ async function initialize() {
 
 //TODO: Data IO
 function main() {
-    let commandInterpreter = new CommandInterpreter();
+    let commandInterpreter = new CommandInterpreter(";");
     let input = readline.createInterface({
         input: process.stdin,
         output: process.stdout,

@@ -38,7 +38,7 @@ function updateYoutubeDl() {
                     reject(error);
                 } else {
                     console.log(stdout);
-                    console.log(`Updated youtube-dl!`);
+                    console.log(`Update done!`);
                     resolve();
                 }
             });

@@ -23,7 +23,7 @@ class DownloadJob {
                     .then(() => trimSong(this))
                     .then(() => deleteTemp(this))
                     .then(() => {
-                        console.log(`*Completed download of ${this.song.getName()} - ${this.song.getGameName()}!*`);
+                        console.log(`*Completed download of "${this.song.getName()} - ${this.song.getGameName()}"!*`);
                         resolve();
                     })
                     .catch((error) => {

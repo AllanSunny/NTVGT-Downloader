@@ -75,7 +75,7 @@ class Song {
      * @param previous The path to the folder that precedes this one.
      */
 
-    //File format is m4a
+    //File format is mp3
     setFilePath(previous) {
         this.filePath = `${previous}/Song ${this.id + 1} - ${sanitizer(this.name)} - ${sanitizer(this.vgName)}.mp3`;
     }
@@ -102,7 +102,7 @@ class Song {
      *      <Song Name> - <Game Name> in category <Category Name> [YouTube Link]
      */
     toString() {
-        return `"${this.name} - ${this.vgName} in category "${this.category.getName()}" [${this.ytLink}]"`;
+        return `"${this.name} - ${this.vgName}" in category "${this.category.getName()}" [${this.ytLink}]"`;
     }
 }
 
