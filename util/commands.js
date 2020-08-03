@@ -42,19 +42,34 @@ function getAll(object) {
 //Responsibility of parsing argument array delegated to data objects (for additions only)
 function add(object, args) {
     return new Promise((resolve, reject) => {
-        object.addData(args)
-            .then(() => {
-                resolve();
-            })
-            .catch((reason) => {
-                reject(reason);
-            })
+        if (typeof object.addData === "function") {
+            object.addData(args)
+                .then(() => {
+                    resolve(); //Reference object does not change
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
+        } else {
+            reject("Cannot add data here.");
+        }
     });
 }
 
+//Sole arg is name or num to delete
 function remove(object, args) {
     return new Promise((resolve, reject) => {
-        //TODO
+        let result;
+
+        if (typeof object.removeData === "function") {
+            result = object.removeData(args[0]);
+        }
+
+        if (result) {
+            resolve(); //Reference object does not change
+        } else {
+            reject("Could not find that data.");
+        }
     });
 }
 

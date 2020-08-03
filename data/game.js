@@ -49,7 +49,13 @@ class Game {
     }
 
     removeData(id) {
-        this.categories = util.removeFromArray(id, this.categories);
+        let result = util.removeFromArray(id, this.categories);
+        if (result) {
+            this.categories = result;
+            return true;
+        } else { //Removal failed, undefined returned
+            return false;
+        }
     }
 
     /**

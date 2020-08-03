@@ -121,8 +121,8 @@ function getFromArray(name, array) {
  * Remove a Game, Category, or Song from an array.
  * @param name The name or ID number of the object to remove.
  * @param array The array the object is stored in.
- * @returns {array} A copy of the original array, with the object of
- *      <name> removed, or no changes made if it was not found.
+ * @returns {object} A copy of the original array, with the object of
+ *      <name> removed, or undefined if it was not found.
  */
 function removeFromArray(name, array) {
     let toRemoveIndex = -1;
@@ -153,7 +153,7 @@ function removeFromArray(name, array) {
         removeFileOrDirectory(removed.getFilePath());
         console.log(`Removed ${removed.toString()}.`);
     } else {
-        console.error(name + " not found to remove!");
+        return;
     }
 
     return array;

@@ -27,7 +27,13 @@ class GameManager {
     }
 
     removeData(id) {
-        this.games = util.removeFromArray(id, this.games);
+        let result = util.removeFromArray(id, this.games);
+        if (result) {
+            this.games = result;
+            return true;
+        } else { //Removal failed, undefined returned
+            return false;
+        }
     }
 
     setDestination(root) {

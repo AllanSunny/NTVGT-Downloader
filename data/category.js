@@ -54,7 +54,13 @@ class Category {
     }
 
     removeData(id) {
-        this.songs = util.removeFromArray(id, this.songs);
+        let result = util.removeFromArray(id, this.songs);
+        if (result) {
+            this.songs = result;
+            return true;
+        } else { //Removal failed, undefined returned
+            return false;
+        }
     }
 
     /**
