@@ -1,5 +1,6 @@
 const timeFormat = require("hh-mm-ss");
 const fs = require("fs");
+const fsPath = require("path");
 
 /**
  * Converts a string to title case, where each first letter of a word/phrase
@@ -203,19 +204,19 @@ function removeFileOrDirectory(path) {
     checkFileOrDirExistence(path)
         .then((exists) => {
             if (exists) {
-                fs.lstat(path, ((err, stats) => {
-                    if (stats.isFile()) {
-                        fs.promises.unlink(path)
+                fs.lstat(path, ((error, stats) => {
+                    if (stats.isDirectory()) {
+                        fs.promises.rmdir(path, {recursive: true})
                             .catch((error) => {
-                                console.error(`Failed to remove file ${path}.`);
+                                console.error(`Failed to remove directory ${path}.`);
                                 if (error) {
                                     console.error(error);
                                 }
                             });
-                    } else { //Is directory
-                        fs.promises.rmdir(path, {recursive: true})
+                    } else { //Is a file
+                        fs.promises.unlink(path)
                             .catch((error) => {
-                                console.error(`Failed to remove directory ${path}.`);
+                                console.error(`Failed to remove file ${path}.`);
                                 if (error) {
                                     console.error(error);
                                 }
@@ -227,13 +228,33 @@ function removeFileOrDirectory(path) {
 }
 
 /**
+ * Remove all files in a directory of certain extensions.
+ * @param path The path to the directory to check.
+ * @param extensions A string[] containing the extensions to remove.
+ */
+function removeFilesByExtensions(path, extensions) {
+    fs.readdir(path, (error, files) => {
+        if (error) {
+            console.error("Could not clean up leftover files.");
+        } else {
+            for (let fileName of files) {
+                let extensionCheck = fsPath.extname(fileName);
+                if (extensions.includes(extensionCheck)) {
+                    removeFileOrDirectory(`${path}/${fileName}`);
+                }
+            }
+        }
+    });
+}
+
+/**
  * Exit the function gracefully by saving running data before termination.
  * @param code The code to terminate with. (0 is normal, 1 is error)
  */
 function gracefulExit(code) {
     //TODO: Save data
 
-    console.log("Gracefully dying and crying");
+    console.log("Gracefully melting");
     process.exit(code);
 }
 
@@ -248,5 +269,6 @@ module.exports = {
     checkFileOrDirExistence,
     createDirectory,
     calculateDuration,
+    removeFilesByExtensions,
     gracefulExit,
 };

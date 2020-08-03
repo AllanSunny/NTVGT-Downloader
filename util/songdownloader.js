@@ -57,10 +57,10 @@ class DownloadJobQueue {
 
             await Promise.all(this.queue)
                 .then(() => {
-                    if (!this.killed) {
-                        console.log("Downloads complete!");
-                    } else {
+                    if (this.killed) {
                         console.log("Downloads aborted!");
+                    } else {
+                        console.log("Downloads complete!");
                     }
                     resolve();
                 });
@@ -68,11 +68,21 @@ class DownloadJobQueue {
     }
 
     killProcesses() {
-        this.killed = true;
-        for (let job of this.jobs) {
-            job.killed = true;
-            job.killDownload();
-        }
+        return new Promise((resolve) => {
+            this.killed = true;
+            for (let job of this.jobs) {
+                job.killed = true;
+                job.killDownload();
+            }
+            resolve();
+        });
+    }
+
+    cleanUpDownloads() {
+        return new Promise((resolve) => {
+            this.gameManager.cleanUpDownloads();
+            resolve();
+        });
     }
 }
 

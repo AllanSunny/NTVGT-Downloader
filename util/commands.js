@@ -76,16 +76,15 @@ function download(object, args) {
 //Only works if stoppable command is in progress
 //Object will be CommandInterpreter
 function stop(object, args) {
-    let inProgress = object.getCancellableTask();
+    let inProgress = object.getCancellableTask(); //DownloadJobQueue
 
-    return new Promise( (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
         if (inProgress.limiter.pendingCount !== 0) {
             inProgress.limiter.clearQueue();
         }
 
-        inProgress.killProcesses();
-        //TODO: Go through entire file structure and clean up any .part and .ytdl files
-        console.log("Processes aborted.");
+        await inProgress.killProcesses();
+        await inProgress.cleanUpDownloads();
         resolve(object.getGameManager());
     });
 }

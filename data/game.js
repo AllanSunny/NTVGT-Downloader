@@ -74,6 +74,12 @@ class Game {
         }
     }
 
+    cleanUpDownloads() {
+        for (let category of this.categories) {
+            category.cleanUpDownloads();
+        }
+    }
+
     toString() {
         if (this.categories.length === 0) {
             return `"Game ${this.id + 1} (ID ${this.id}) with no categories"`;

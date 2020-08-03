@@ -81,6 +81,10 @@ class Category {
         }
     }
 
+    cleanUpDownloads() {
+        util.removeFilesByExtensions(this.filePath, ['.part', '.ytdl'])
+    }
+
     toString() {
         if (this.songs.length === 0) {
             return `"Category "${this.name}" with no songs"`;

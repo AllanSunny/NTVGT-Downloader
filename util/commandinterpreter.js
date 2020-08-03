@@ -63,7 +63,7 @@ class CommandInterpreter {
                         this.status = this.statusNames.READY;
                         reject("There is nothing to stop.");
                     } else {
-                        //For passing in progress function instance to stop function
+                        //For passing the in progress function instance to stop function
                         this.reference = this;
                     }
                     break;

@@ -27,7 +27,7 @@ class GameManager {
     }
 
     removeData(id) {
-        return util.removeFromArray(id, this.games);
+        this.games = util.removeFromArray(id, this.games);
     }
 
     setDestination(root) {
@@ -40,6 +40,12 @@ class GameManager {
     queueDownloads(jobQueue) {
         for (let game of this.games) {
             game.queueDownloads(jobQueue);
+        }
+    }
+
+    cleanUpDownloads() {
+        for (let game of this.games) {
+            game.cleanUpDownloads();
         }
     }
 
