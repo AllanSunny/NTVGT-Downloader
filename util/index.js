@@ -152,11 +152,9 @@ function removeFromArray(name, array) {
         array.splice(toRemoveIndex, 1);
         removeFileOrDirectory(removed.getFilePath());
         console.log(`Removed ${removed.toString()}.`);
-    } else {
-        return;
+        return array;
     }
-
-    return array;
+    //If it gets to this point, obj with name not found
 }
 
 /**
@@ -166,7 +164,7 @@ function removeFromArray(name, array) {
  * false otherwise.
  */
 function checkFileOrDirExistence(path) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         fs.access(path, (error) => {
             if (error) {
                 resolve(false);
@@ -248,7 +246,7 @@ function removeFilesByExtensions(path, extensions) {
 }
 
 /**
- * Exit the function gracefully by saving running data before termination.
+ * Exit the application gracefully by saving running data before termination.
  * @param code The code to terminate with. (0 is normal, 1 is error)
  */
 function gracefulExit(code) {
@@ -261,14 +259,15 @@ function gracefulExit(code) {
 
 module.exports = {
     titleCase,
+    calculateDuration,
     listToString,
-    isNumber,
     addLeadingZerosTime,
+    isNumber,
     getFromArray,
     removeFromArray,
     checkFileOrDirExistence,
     createDirectory,
-    calculateDuration,
+    removeFileOrDirectory,
     removeFilesByExtensions,
     gracefulExit,
 };

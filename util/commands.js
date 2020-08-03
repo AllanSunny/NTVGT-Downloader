@@ -34,10 +34,6 @@ function previous(object) {
     });
 }
 
-function getAll(object) {
-    return new Promise((resolve) => resolve(object.getAll()));
-}
-
 //New Song: add, accumula town, pokemon black/white, link, time, time
 //Responsibility of parsing argument array delegated to data objects (for additions only)
 function add(object, args) {
@@ -75,7 +71,7 @@ function remove(object, args) {
 
 //Object passed in will be CommandInterpreter, sole arg is download location
 function download(object, args) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
         let downloadJobQueue = new DownloadJobQueue(object.getGameManager(), this.name);
         object.setCancellableTask(downloadJobQueue);
@@ -90,10 +86,10 @@ function download(object, args) {
 
 //Only works if stoppable command is in progress
 //Object will be CommandInterpreter
-function stop(object, args) {
+function stop(object) {
     let inProgress = object.getCancellableTask(); //DownloadJobQueue
 
-    return new Promise( async (resolve, reject) => {
+    return new Promise( async (resolve) => {
         if (inProgress.limiter.pendingCount !== 0) {
             inProgress.limiter.clearQueue();
         }
@@ -110,7 +106,7 @@ function exit() {
 }
 
 function getAllCommands() {
-    return [get, previous, getAll, add, remove, download, stop, exit];
+    return [get, previous, add, remove, download, stop, exit];
 }
 
 function getStoppableCommands() {
