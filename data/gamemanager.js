@@ -11,9 +11,8 @@ class GameManager {
     }
 
     /**
-     * Create a new game and store it in the array. The game's ID will
-     * be the total number of games created thus far.
-     * @args None.
+     * Create a new game and store it in the array of games. The game's
+     * ID will be the total number of games created thus far.
      * @returns {Promise} Resolves upon addition to the array.
      */
     addData() {
@@ -28,14 +27,14 @@ class GameManager {
     /**
      * Retrieve an instance of a game (games only have a numerical ID).
      * @param id The ID number of the game to find.
-     * @returns {object} An instance of a game, or undefined if it couldn't be found.
+     * @returns {object} The game object, or undefined if it couldn't be found.
      */
     getData(id) {
         return util.getFromArray(id, this.games);
     }
 
     /**
-     * Retrieve all games currently stored in this object.
+     * Retrieve all games currently stored in this game manager.
      * @returns {Game[]} An array containing all created games.
      */
     getAll() {
@@ -79,7 +78,7 @@ class GameManager {
     }
 
     /**
-     * Clean up any leftover files from an aborted song download.
+     * Clean up any leftover files from aborted song downloads.
      */
     cleanUpDownloads() {
         for (let game of this.games) {

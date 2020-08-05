@@ -1,28 +1,48 @@
 const util = require("../util/index");
 const {Category} = require("./category");
 
+/**
+ * This class contains information on a game (round), storing categories.
+ */
 class Game {
     constructor(gameId, gameManager) {
         this.id = gameId;
-        this.categoryCount = 0;
+        this.categoryCount = 0; //Incremented on each category for uniqueness
         this.categories = [];
-        this.filePath = "";
+        this.filePath = ""; //The directory to store this game's files in, set later
         this.gameManager = gameManager;
     }
 
+    /**
+     * Get the ID of this game.
+     * @returns {number} The ID number of this game.
+     */
     getID() {
         return this.id;
     }
 
+    /**
+     * Retrieve all categories currently stored in this game.
+     * @returns {Category[]} An array containing all created categories.
+     */
     getAll() {
         return this.categories;
     }
 
+    /**
+     * Retrieve the game manager that this game is stored in.
+     * @returns {GameManager} The game manager object.
+     */
     getPrevious() {
         return this.gameManager;
     }
 
-    //Only one arg: category name
+    /**
+     * Create a new category and store it in the array of categories. The category's
+     * ID will be the total number of categories created thus far.
+     * @param args A string array, containing in order: [category name]
+     * @returns {Promise} Resolves upon addition to the array.
+     */
     addData(args) {
         return new Promise((resolve, reject) => {
             let newName = util.titleCase(args[0]);
@@ -40,14 +60,19 @@ class Game {
     }
 
     /**
-     * Retrieve a specific category.
-     * @param id The name or ID number of the category.
-     * @returns {Category} The instance of a category.
+     * Retrieve an instance of a category.
+     * @param id The name or ID number of the category to find.
+     * @returns {Category} The category object, or undefined if it couldn't be found.
      */
     getData(id) {
         return util.getFromArray(id, this.categories);
     }
 
+    /**
+     * Remove an instance of a category.
+     * @param id The name or ID number of the category to remove.
+     * @returns {boolean} Whether the removal was successful or not.
+     */
     removeData(id) {
         let result = util.removeFromArray(id, this.categories);
         if (result) {
@@ -59,7 +84,8 @@ class Game {
     }
 
     /**
-     *
+     * Set the directory path that this game's categories will be stored in,
+     * and set the directory path for each category.
      * @param previous The path to the folder that precedes this one.
      */
     setFilePaths(previous) {
@@ -70,29 +96,45 @@ class Game {
         }
     }
 
+    /**
+     * Retrieve the file path to this game's directory.
+     * @returns {string} The file path.
+     */
     getFilePath() {
         return this.filePath;
     }
 
+    /**
+     * Queue up all songs for downloads.
+     * @param jobQueue The DownloadJobQueue that will manage the downloads.
+     */
     queueDownloads(jobQueue) {
         for (let category of this.categories) {
             category.queueDownloads(jobQueue);
         }
     }
 
+    /**
+     * Clean up any leftover files from aborted song downloads.
+     */
     cleanUpDownloads() {
         for (let category of this.categories) {
             category.cleanUpDownloads();
         }
     }
 
+    /**
+     * Convert game information into a readable string.
+     * @returns {string} Game information in the format:
+     *      Game <Human ID> (ID <Internal ID>) containing <Category List>
+     */
     toString() {
         if (this.categories.length === 0) {
             return `"Game ${this.id + 1} (ID ${this.id}) with no categories"`;
         }
 
         let result = `"Game ${this.id + 1} (ID ${this.id}) containing categories: `;
-        result += util.listToString(this.categories) + '"';
+        result += util.arrayToStringList(this.categories) + '"';
 
         return result;
     }

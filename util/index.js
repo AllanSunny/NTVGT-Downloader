@@ -19,7 +19,7 @@ function titleCase(string) {
 }
 
 /**
- * Calculate the duration between two video timestamps.
+ * Calculate the duration between two timestamps.
  * @param startTime The start time, in "hh:mm:ss" format.
  * @param endTime The end time, in "hh:mm:ss" format.
  * @returns {number} The number of seconds between the times.
@@ -32,11 +32,12 @@ function calculateDuration(startTime, endTime) {
 }
 
 /**
- * Parses the elements of an array containing Categories or Songs.
- * @param array The list to parse.
+ * Parse the elements of an array containing objects with a name attribute
+ * (Categories or Songs) into a string list.
+ * @param array The array to parse.
  * @returns {string} A comma-separated string with the list of elements.
  */
-function listToString(array) {
+function arrayToStringList(array) {
     let result = "";
 
     for (let i = 0; i < array.length; i++) {
@@ -90,7 +91,7 @@ function isNumber(string) {
 }
 
 /**
- * Retrieve a Game, Category, or Song from an array.
+ * Retrieve a Game, Category, or Song from an array storing these objects.
  * @param name The name or ID number of the object to retrieve.
  * @param array The array the object is stored in.
  * @returns {object} The Game, Category, or Song being looked for,
@@ -118,7 +119,7 @@ function getFromArray(name, array) {
 }
 
 /**
- * Remove a Game, Category, or Song from an array.
+ * Remove a Game, Category, or Song from an array storing these objects.
  * @param name The name or ID number of the object to remove.
  * @param array The array the object is stored in.
  * @returns {object} A copy of the original array, with the object of
@@ -154,14 +155,14 @@ function removeFromArray(name, array) {
         console.log(`Removed ${removed.toString()}.`);
         return array;
     }
-    //If it gets to this point, obj with name not found
+    //Not found
 }
 
 /**
  * Check if a file or directory already exists.
- * @param path The path to the file to check.
- * @returns {Promise<boolean>} True if the file exists for access,
- * false otherwise.
+ * @param path The path to check.
+ * @returns {Promise<boolean>} True if the file/directory exists for
+ * access, false otherwise.
  */
 function checkFileOrDirExistence(path) {
     return new Promise((resolve) => {
@@ -228,7 +229,7 @@ function removeFileOrDirectory(path) {
 /**
  * Remove all files in a directory of certain extensions.
  * @param path The path to the directory to check.
- * @param extensions A string[] containing the extensions to remove.
+ * @param extensions A string array containing the extensions to remove.
  */
 function removeFilesByExtensions(path, extensions) {
     fs.readdir(path, (error, files) => {
@@ -260,7 +261,7 @@ function gracefulExit(code) {
 module.exports = {
     titleCase,
     calculateDuration,
-    listToString,
+    arrayToStringList,
     addLeadingZerosTime,
     isNumber,
     getFromArray,

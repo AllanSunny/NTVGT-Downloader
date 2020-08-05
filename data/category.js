@@ -97,7 +97,7 @@ class Category {
         }
 
         let result = `"Category "${this.name}" containing songs: `;
-        result += util.listToString(this.songs) + '"';
+        result += util.arrayToStringList(this.songs) + '"';
 
         return result;
     }
