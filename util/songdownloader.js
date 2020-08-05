@@ -59,7 +59,7 @@ class DownloadJobQueue {
             await Promise.all(this.queue)
                 .then(() => {
                     if (this.killed) {
-                        console.log("Downloads aborted!");
+                        console.log("Download process aborted!");
                     } else {
                         console.log("Downloads complete!");
                     }

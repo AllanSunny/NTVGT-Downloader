@@ -233,7 +233,7 @@ function removeFileOrDirectory(path) {
 function removeFilesByExtensions(path, extensions) {
     fs.readdir(path, (error, files) => {
         if (error) {
-            console.error("Could not clean up leftover files.");
+            console.error(`Could not clean up files with extension(s) ${extensions.toString()}.`);
         } else {
             for (let fileName of files) {
                 let extensionCheck = fsPath.extname(fileName);

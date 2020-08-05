@@ -88,7 +88,7 @@ class Category {
     }
 
     cleanUpDownloads() {
-        util.removeFilesByExtensions(this.filePath, ['.part', '.ytdl'])
+        util.removeFilesByExtensions(this.filePath, ['.part', '.ytdl']);
     }
 
     toString() {
