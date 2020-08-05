@@ -52,8 +52,7 @@ function main() {
 
 
 initialize()
-    .catch((error) => {
-        //console.error(error);
+    .catch(() => {
         console.error("Failed to initialize!");
         process.exit(1);
     })
@@ -61,6 +60,6 @@ initialize()
     .then(() => main())
     .catch((error) => {
         console.error("A fatal error occurred.");
-        console.error(error);
+        console.error(error.toString());
         util.gracefulExit(1);
     });

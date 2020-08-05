@@ -187,7 +187,7 @@ function createDirectory(path) {
                     .catch((error) => {
                         console.error(`Failed to create directory ${path}.`);
                         if (error) {
-                            console.error(error);
+                            console.error(error.toString());
                         }
                     });
             }
@@ -208,7 +208,7 @@ function removeFileOrDirectory(path) {
                             .catch((error) => {
                                 console.error(`Failed to remove directory ${path}.`);
                                 if (error) {
-                                    console.error(error);
+                                    console.error(error.toString());
                                 }
                             });
                     } else { //Is a file
@@ -216,7 +216,7 @@ function removeFileOrDirectory(path) {
                             .catch((error) => {
                                 console.error(`Failed to remove file ${path}.`);
                                 if (error) {
-                                    console.error(error);
+                                    console.error(error.toString());
                                 }
                             });
                     }

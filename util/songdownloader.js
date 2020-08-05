@@ -20,7 +20,7 @@ class DownloadJob {
                 resolve();
             } else {
                 downloadSong(this)
-                    .then(() => trimSong(this))
+                    .then(() => processSong(this))
                     .then(() => deleteTemp(this))
                     .then(() => {
                         console.log(`*Completed download of "${this.song.getName()} - ${this.song.getGameName()}"!*`);
@@ -34,6 +34,7 @@ class DownloadJob {
     }
 
     killDownload() {
+        this.killed = true;
         if (this.runningDownload) {
             this.runningDownload.kill();
         }
@@ -43,9 +44,9 @@ class DownloadJob {
 class DownloadJobQueue {
     constructor(gameManager, name) {
         this.name = name; //The name of the function that spawned this queue
-        this.queue = []; //The queue of download job promises to be fulfilled
-        this.jobs = []; //Instances of DownloadJobs
+        this.queue = []; //The queue of download job execution promises to be fulfilled
         this.limiter = pLimit(2);
+        this.jobs = []; //Instances of DownloadJobs
         this.gameManager = gameManager;
         this.killed = false;
     }
@@ -71,14 +72,13 @@ class DownloadJobQueue {
         return new Promise((resolve) => {
             this.killed = true;
             for (let job of this.jobs) {
-                job.killed = true;
                 job.killDownload();
             }
             resolve();
         });
     }
 
-    cleanUpDownloads() {
+    cleanUp() {
         return new Promise((resolve) => {
             this.gameManager.cleanUpDownloads();
             resolve();
@@ -111,20 +111,20 @@ function downloadSong(job) {
     });
 }
 
-
-function trimSong(job) {
+//Processing song is running it through FFMPEG- trim and convert to final mp3 format
+function processSong(job) {
     return new Promise(resolve => {
-        console.log(`Trimming audio for "${job.song.getName()} - ${job.song.getGameName()}"...`);
+        console.log(`Processing audio for "${job.song.getName()} - ${job.song.getGameName()}"...`);
 
         childProcess.execFile('./util/downloadutils/ffmpeg.exe',
             ['-hide_banner', '-y',
                 '-loglevel', 'panic',
                 '-i', `${job.song.getFilePath()} (temp)`,
-                '-ss', job.song.startTime, '-t', job.song.duration,
+                '-ss', job.song.getStartTime(), '-t', job.song.getDuration(),
                 '-c:v', 'copy', '-c:a', 'libmp3lame',
                 '-q:a', '2', `${job.song.getFilePath()}`],
             () => {
-            console.log(`Trimmed audio for "${job.song.getName()} - ${job.song.getGameName()}"!`);
+            console.log(`Processed audio for "${job.song.getName()} - ${job.song.getGameName()}"!`);
             resolve();
         });
     });

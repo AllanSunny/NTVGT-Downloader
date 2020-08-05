@@ -13,8 +13,8 @@ class Song {
         this.category = category;
         this.ytLink = ytLink;
 
-        this.parseStartTime(startTime);
-        this.parseEndTime(endTime);
+        this.startTime = this.parseStartTime(startTime);
+        this.endTime = this.parseEndTime(endTime);
 
         this.duration = util.calculateDuration(this.startTime, this.endTime);
         this.filePath = ""; //Gets assigned later
@@ -31,7 +31,7 @@ class Song {
         }
 
         //StartTime is stored in mm:ss format
-        this.startTime = startTime;
+        return startTime;
     }
 
     parseEndTime(endTime) {
@@ -47,7 +47,7 @@ class Song {
         }
 
         //EndTime is stored in mm:ss format
-        this.endTime = endTime;
+        return endTime;
     }
 
     getID() {
@@ -64,6 +64,18 @@ class Song {
 
     getYTLink() {
         return this.ytLink;
+    }
+
+    getStartTime() {
+        return this.startTime;
+    }
+
+    getEndTime() {
+        return this.endTime;
+    }
+
+    getDuration() {
+        return this.duration;
     }
 
     getPrevious() {

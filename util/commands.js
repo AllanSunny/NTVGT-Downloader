@@ -89,19 +89,18 @@ function download(object, args) {
 function stop(object) {
     let inProgress = object.getCancellableTask(); //DownloadJobQueue
 
-    return new Promise( async (resolve) => {
+    return new Promise(async (resolve) => {
         if (inProgress.limiter.pendingCount !== 0) {
             inProgress.limiter.clearQueue();
         }
 
         await inProgress.killProcesses();
-        await inProgress.cleanUpDownloads();
+        await inProgress.cleanUp();
         resolve(object.getGameManager());
     });
 }
 
 function exit() {
-    //TODO
     util.gracefulExit(0);
 }
 
