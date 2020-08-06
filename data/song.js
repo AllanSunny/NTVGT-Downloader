@@ -84,7 +84,7 @@ class Song {
 
     /**
      *
-     * @param previous The path to the folder that precedes this one.
+     * @param previous The path to the directory that precedes this one.
      */
 
     //File format is mp3

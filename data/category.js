@@ -65,7 +65,7 @@ class Category {
 
     /**
      *
-     * @param previous The path to the folder that precedes this one.
+     * @param previous The path to the directory that precedes this one.
      */
     setFilePaths(previous) {
         this.filePath = `${previous}/Category ${this.id + 1} - ${sanitizer(this.name)}`;

@@ -5,6 +5,11 @@ const {Category} = require("./category");
  * This class contains information on a game (round), storing categories.
  */
 class Game {
+    /**
+     * Create a new game.
+     * @param gameId The ID to associate with the game.
+     * @param gameManager The GameManager creating the game.
+     */
     constructor(gameId, gameManager) {
         this.id = gameId;
         this.categoryCount = 0; //Incremented on each category for uniqueness
@@ -86,7 +91,7 @@ class Game {
     /**
      * Set the directory path that this game's categories will be stored in,
      * and set the directory path for each category.
-     * @param previous The path to the folder that precedes this one.
+     * @param previous The path to the directory that precedes this one.
      */
     setFilePaths(previous) {
         this.filePath = `${previous}/Game ${this.id + 1}`;

@@ -69,11 +69,11 @@ function remove(object, args) {
     });
 }
 
-//Object passed in will be CommandInterpreter, sole arg is download location
+//Object passed in will be CommandInterpreter, args: dl location, limit on concurrent dls (optional)
 function download(object, args) {
     return new Promise(async (resolve) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
-        let downloadJobQueue = new DownloadJobQueue(object.getGameManager(), this.name);
+        let downloadJobQueue = new DownloadJobQueue(object.getGameManager(), args[1]);
         object.setCancellableTask(downloadJobQueue);
 
         await downloadJobQueue.execute(args[0]);

@@ -42,17 +42,19 @@ class DownloadJob {
 }
 
 class DownloadJobQueue {
-    constructor(gameManager, name) {
-        this.name = name; //The name of the function that spawned this queue
+    constructor(gameManager, limit) {
         this.queue = []; //The queue of download job execution promises to be fulfilled
-        this.limiter = pLimit(2);
+        let concurrency;
+        limit ? concurrency = limit : concurrency = 3;
+        this.limiter = pLimit(concurrency);
+
         this.jobs = []; //Instances of DownloadJobs
         this.gameManager = gameManager;
         this.killed = false;
     }
 
     execute(destination) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             this.gameManager.setDestination(destination);
             this.gameManager.queueDownloads(this);
 

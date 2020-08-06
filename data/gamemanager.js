@@ -59,7 +59,7 @@ class GameManager {
     /**
      * Go through the data tree and set up the directory structure for
      * downloading songs.
-     * @param root The root folder to store files in.
+     * @param root The root directory to store files in.
      */
     setDestination(root) {
         for (let game of this.games) {
