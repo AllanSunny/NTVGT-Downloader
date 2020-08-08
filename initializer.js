@@ -1,21 +1,30 @@
 const childProcess = require('child_process');
 const util = require("./util/index");
 
+/**
+ * Do setup before the application starts taking commands.
+ * @returns {Promise<void>} Resolves on a successful setup and rejects on an error.
+ */
 async function initialize() {
-    //Promise 1: check youtube-dl and config existence
+    //1: check youtube-dl and config existence
     await checkUtilityExistence("./util/downloadutils/youtube-dl.exe");
     await checkUtilityExistence("./util/downloadutils/ytdlconfig.txt");
 
-    //Promise 2: check ffmpeg existence
+    //2: check ffmpeg existence
     await checkUtilityExistence("./util/downloadutils/ffmpeg.exe");
 
-    //Promise 3: update youtube-dl
+    //3: update youtube-dl
     await updateYoutubeDl();
 
-    //Promise 4: load existing games
+    //4: load existing games
     //TODO: Implement after save/load system
 }
 
+/**
+ * Make sure that a specific utility file exists and is accessible.
+ * @param {string} path The expected location of the file.
+ * @returns {Promise<void>} Resolves if exists, otherwise rejects.
+ */
 function checkUtilityExistence(path) {
     return new Promise((resolve, reject) => {
         if (!util.checkFileOrDirExistence(path)) {
@@ -27,7 +36,10 @@ function checkUtilityExistence(path) {
     });
 }
 
-//The utility will not update if it is already up to date
+/**
+ * Call on youtube-dl.exe to update itself. It only updates if necessary.
+ * @returns {Promise} Resolves once the youtube-dl process is done, rejects on an error.
+ */
 function updateYoutubeDl() {
     return new Promise(async (resolve, reject) => {
         console.log("Updating youtube-dl...");

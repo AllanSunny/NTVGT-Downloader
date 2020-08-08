@@ -41,6 +41,7 @@ class DownloadJob {
     }
 }
 
+//A "cancellable task"
 class DownloadJobQueue {
     constructor(gameManager, limit) {
         this.queue = []; //The queue of download job execution promises to be fulfilled
@@ -97,7 +98,7 @@ function downloadSong(job) {
             ['-o', `${job.song.getFilePath()} (temp)`,
                 '--config-location', './util/downloadutils/ytdlconfig.txt',
                 job.song.getYTLink()],
-            ((error, stdout, stderr) => {
+            (error, stdout, stderr) => {
                 if (error && !job.killed) {
                     console.error("An error occurred while trying to download a song.");
                     reject(error);
@@ -109,7 +110,7 @@ function downloadSong(job) {
                     job.runningDownload = undefined;
                     resolve();
                 }
-            }));
+            });
     });
 }
 

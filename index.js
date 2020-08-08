@@ -8,6 +8,10 @@ async function initialize() {
 }
 
 //TODO: Data IO
+/**
+ * The main driver for the application. Currently, commands are taken from
+ * stdin, parsed, and executed by a CommandInterpreter object.
+ */
 function main() {
     let commandInterpreter = new CommandInterpreter(";");
     let input = readline.createInterface({

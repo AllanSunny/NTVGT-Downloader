@@ -20,8 +20,8 @@ function titleCase(string) {
 
 /**
  * Calculate the duration between two timestamps.
- * @param startTime The start time, in "hh:mm:ss" format.
- * @param endTime The end time, in "hh:mm:ss" format.
+ * @param {string} startTime The start time, in "hh:mm:ss" format.
+ * @param {string} endTime The end time, in "hh:mm:ss" format.
  * @returns {number} The number of seconds between the times.
  */
 function calculateDuration(startTime, endTime) {
@@ -56,7 +56,7 @@ function arrayToStringList(array) {
 /**
  * Take a timestamp meant for the "hh:mm:ss" format and add leading
  * zeros to any time value (hrs, mins, secs) less than 10.
- * @param time The timestamp to parse, in a string.
+ * @param {string} time The timestamp to parse.
  * @returns {string} The timestamp in "hh:mm:ss" format.
  */
 function addLeadingZerosTime(time) {
@@ -92,7 +92,7 @@ function isNumber(string) {
 
 /**
  * Retrieve a Game, Category, or Song from an array storing these objects.
- * @param name The name or ID number of the object to retrieve.
+ * @param {string|number} name The name or ID number of the object to find.
  * @param array The array the object is stored in.
  * @returns {object} The Game, Category, or Song being looked for,
  *          or undefined if it could not be found.
@@ -120,7 +120,7 @@ function getFromArray(name, array) {
 
 /**
  * Remove a Game, Category, or Song from an array storing these objects.
- * @param name The name or ID number of the object to remove.
+ * @param {string|number} name The name or ID number of the object to remove.
  * @param array The array the object is stored in.
  * @returns {object} A copy of the original array, with the object of
  *      <name> removed, or undefined if it was not found.
@@ -160,7 +160,7 @@ function removeFromArray(name, array) {
 
 /**
  * Check if a file or directory already exists.
- * @param path The path to check.
+ * @param {string} path The path to check.
  * @returns {Promise<boolean>} True if the file/directory exists for
  * access, false otherwise.
  */
@@ -178,7 +178,7 @@ function checkFileOrDirExistence(path) {
 
 /**
  * Create a directory at a specified path, only if it doesn't exist already.
- * @param path The path to create the directory at.
+ * @param {string} path The path to create the directory at.
  */
 function createDirectory(path) {
     checkFileOrDirExistence(path)
@@ -197,7 +197,7 @@ function createDirectory(path) {
 
 /**
  * Remove a file or a directory, only if it exists already.
- * @param path The path to the file or directory.
+ * @param {string} path The path to the file or directory.
  */
 function removeFileOrDirectory(path) {
     checkFileOrDirExistence(path)
@@ -227,9 +227,9 @@ function removeFileOrDirectory(path) {
 }
 
 /**
- * Remove all files in a directory of certain extensions.
- * @param path The path to the directory to check.
- * @param extensions A string array containing the extensions to remove.
+ * Remove all files in a directory of certain extension types.
+ * @param {string} path The path to the directory to check.
+ * @param {string[]} extensions The extension types to be removed.
  */
 function removeFilesByExtensions(path, extensions) {
     fs.readdir(path, (error, files) => {
@@ -248,15 +248,13 @@ function removeFilesByExtensions(path, extensions) {
 
 /**
  * Exit the application gracefully by saving running data before termination.
- * @param code The code to terminate with. (0 is normal, 1 is error)
+ * @param {number} code The code to terminate with. (0 is normal, 1 is error)
  */
 function gracefulExit(code) {
     //TODO: Save data
-
-    console.log("Gracefully melting");
+    console.log(`Exiting application with code ${code}.`);
     process.exit(code);
 }
-
 
 module.exports = {
     titleCase,

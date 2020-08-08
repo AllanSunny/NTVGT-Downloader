@@ -13,7 +13,7 @@ class GameManager {
     /**
      * Create a new game and store it in the array of games. The game's
      * ID will be the total number of games created thus far.
-     * @returns {Promise} Resolves upon addition to the array.
+     * @returns {Promise<void>} Resolves upon addition to the array.
      */
     addData() {
         return new Promise((resolve) => {
@@ -25,16 +25,16 @@ class GameManager {
     }
 
     /**
-     * Retrieve an instance of a game (games only have a numerical ID).
-     * @param id The ID number of the game to find.
-     * @returns {object} The game object, or undefined if it couldn't be found.
+     * Get an instance of a game (games only have a numerical ID).
+     * @param {number} id The ID number of the game to find.
+     * @returns {Game} The game object, or undefined if not found.
      */
     getData(id) {
         return util.getFromArray(id, this.games);
     }
 
     /**
-     * Retrieve all games currently stored in this game manager.
+     * Get all games currently stored in this game manager.
      * @returns {Game[]} An array containing all created games.
      */
     getAll() {
@@ -43,7 +43,7 @@ class GameManager {
 
     /**
      * Remove an instance of a game.
-     * @param id The ID number of the game to remove.
+     * @param {number} id The ID number of the game to remove.
      * @returns {boolean} Whether the removal was successful or not.
      */
     removeData(id) {
@@ -59,7 +59,7 @@ class GameManager {
     /**
      * Go through the data tree and set up the directory structure for
      * downloading songs.
-     * @param root The root directory to store files in.
+     * @param {string} root The root directory to store files in.
      */
     setDestination(root) {
         for (let game of this.games) {
@@ -69,7 +69,7 @@ class GameManager {
 
     /**
      * Queue up all songs for downloads.
-     * @param jobQueue The DownloadJobQueue that will manage the downloads.
+     * @param {DownloadJobQueue} jobQueue The object that will manage the downloads.
      */
     queueDownloads(jobQueue) {
         for (let game of this.games) {
