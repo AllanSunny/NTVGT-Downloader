@@ -2,18 +2,26 @@ const commands = require("./commands");
 const {HashMap} = require("hashmap");
 const {GameManager} = require("../data/gamemanager");
 
+/**
+ * This class is responsible for parsing commands from input and
+ * executing them on the data tree stored in a GameManager.
+ */
 class CommandInterpreter {
+    /**
+     * Create a new instance.
+     * @param {string} splitter The character used to separate command arguments.
+     */
     constructor(splitter) {
-        this.statusNames = {
+        this.statusNames = { //Statuses of the system
             READY: Symbol("Ready"),
             BUSY: Symbol("Busy"),
         };
 
         this.status = this.statusNames.READY;
-        this.splitter = splitter; //The character used to separate command arguments in a line
+        this.splitter = splitter;
 
         let manager = new GameManager();
-        this.reference = manager;
+        this.reference = manager; //Object used as point of reference in data tree
         this.gameManager = manager;
 
         this.executing = undefined;
@@ -36,8 +44,12 @@ class CommandInterpreter {
         console.log(`Currently viewing: ${this.reference.toString()}`);
     }
 
-    //Pass in a raw string, parse into array
-    //This will assume that all arguments have been checked for validity by UI
+    /**
+     * Execute a command.
+     * @param string The raw string to be parsed.
+     * @returns {Promise<object>} Resolves upon successful execution, rejects
+     *      if it failed for some reason.
+     */
     execute(string) {
         this.status = this.statusNames.BUSY;
         let args = string.split(this.splitter);
@@ -74,24 +86,28 @@ class CommandInterpreter {
             this.executing = toExecute;
             toExecute(this.reference, args)
                 .then((result) => {
-                    if (result) {
+                    if (result) { //Result if the point of reference needs to change
                         this.reference = result;
                     }
 
-                    this.status = this.statusNames.READY;
-                    this.executing = undefined;
-                    this.cancellableTask = undefined;
+                    this.resetState();
                     console.log(`Currently viewing: ${this.reference.toString()}`);
                     resolve(result);
                 })
-                //TODO: Clean up error handling?
                 .catch((reason) => {
-                    this.status = this.statusNames.READY;
-                    this.executing = undefined;
-                    this.cancellableTask = undefined;
+                    this.resetState();
                     reject(reason);
                 });
         });
+    }
+
+    /**
+     * Reset the state when a command has finished executing.
+     */
+    resetState() {
+        this.status = this.statusNames.READY;
+        this.executing = undefined;
+        this.cancellableTask = undefined;
     }
 
     /**

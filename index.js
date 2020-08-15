@@ -1,7 +1,7 @@
 const util = require("./util/index");
 const initializer = require("./initializer");
 const {CommandInterpreter} = require("./util/commandinterpreter");
-const readline = require("readline");
+const readLine = require("readline");
 
 async function initialize() {
     await initializer.initialize();
@@ -14,7 +14,7 @@ async function initialize() {
  */
 function main() {
     let commandInterpreter = new CommandInterpreter(";");
-    let input = readline.createInterface({
+    let input = readLine.createInterface({
         input: process.stdin,
         output: process.stdout,
         prompt: "BOOBA> "

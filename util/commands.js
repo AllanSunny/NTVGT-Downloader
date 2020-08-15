@@ -1,7 +1,12 @@
 const util = require ("./index");
 const {DownloadJobQueue} = require("./songdownloader");
 
-//Object is point of reference, args is name or num (will be in array)
+/**
+ * Retrieve an object from the next layer down in the data tree.
+ * @param object The GameManager, Game, or Category to use as the reference.
+ * @param {string[]} args Arguments in this order: [name (title) or ID number]
+ * @returns {Promise<object>} Resolves with the desired object if found.
+ */
 function get(object, args) {
     return new Promise((resolve, reject) => {
         let result;
@@ -18,6 +23,11 @@ function get(object, args) {
     });
 }
 
+/**
+ * Retrieve the object from the previous layer in the data tree.
+ * @param object The Game, Category, or Song to use as the reference.
+ * @returns {Promise<object>} Resolves with the desired object if found.
+ */
 function previous(object) {
     return new Promise((resolve, reject) => {
         let result;
@@ -34,8 +44,15 @@ function previous(object) {
     });
 }
 
-//New Song: add, accumula town, pokemon black/white, link, time, time
-//Responsibility of parsing argument array delegated to data objects (for additions only)
+/**
+ * Add a new data object for the next layer of the data tree.
+ * @param object The GameManager, Game, or Category to create and store
+ *      the new object in.
+ * @param {string[]} args Arguments, handled by the individual objects
+ *      for this command.
+ * @returns {Promise} Resolves upon successful addition, rejects if
+ *      the new data already exists.
+ */
 function add(object, args) {
     return new Promise((resolve, reject) => {
         if (typeof object.addData === "function") {
@@ -52,7 +69,14 @@ function add(object, args) {
     });
 }
 
-//Sole arg is name or num to delete
+/**
+ * Remove an object from the next layer of the data tree.
+ * @param object The GameManager, Game, or Category that the object
+ *      is stored in.
+ * @param {string[]} args Arguments in this order: [name (title) or ID number]
+ * @returns {Promise} Resolves upon successful removal, rejects if the
+ *      object does not exist.
+ */
 function remove(object, args) {
     return new Promise((resolve, reject) => {
         let result;
@@ -69,7 +93,13 @@ function remove(object, args) {
     });
 }
 
-//Object passed in will be CommandInterpreter, args: dl location, limit on concurrent dls (optional)
+/**
+ * Initiate the download process for all songs. This is a "cancellable task".
+ * @param object The CommandInterpreter starting the task.
+ * @param args Arguments in this order:
+ *      [root download directory, concurrency limit (optional)]
+ * @returns {Promise<GameManager>} Resolves once all downloads are complete/aborted.
+ */
 function download(object, args) {
     return new Promise(async (resolve) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
@@ -77,37 +107,48 @@ function download(object, args) {
         object.setCancellableTask(downloadJobQueue);
 
         await downloadJobQueue.execute(args[0]);
-        //Errors will be handled individually
+        //Errors will be handled by individual downloads
 
         //GameManager goes back to being reference to maintain user view
         resolve(object.getGameManager());
     });
 }
 
-//Only works if stoppable command is in progress
-//Object will be CommandInterpreter
+/**
+ * Abort a cancellable task, only if one is currently running (ie. download).
+ * @param object The CommandInterpreter where the task instance is stored.
+ * @returns {Promise<GameManager>} Resolves once the process has been stopped
+ *      and cleaned up.
+ */
 function stop(object) {
     let inProgress = object.getCancellableTask(); //DownloadJobQueue
 
     return new Promise(async (resolve) => {
-        if (inProgress.limiter.pendingCount !== 0) {
-            inProgress.limiter.clearQueue();
-        }
-
         await inProgress.killProcesses();
         await inProgress.cleanUp();
         resolve(object.getGameManager());
     });
 }
 
+/**
+ * Gracefully exit the application.
+ */
 function exit() {
     util.gracefulExit(0);
 }
 
+/**
+ * Get all the commands that can be run.
+ * @returns {function[]} Contains each command as a function.
+ */
 function getAllCommands() {
     return [get, previous, add, remove, download, stop, exit];
 }
 
+/**
+ * Get all the commands that create a "cancellable task".
+ * @returns {function[]} Contains each command as a function.
+ */
 function getStoppableCommands() {
     return [download];
 }
