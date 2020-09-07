@@ -64,7 +64,7 @@ The program requires an internet connection for full functionality (in order to 
 * remove: Remove an item from the next layer down in the data structure.
   * Usage: ``remove;<name/title or ID>``
 * download: Download audio files for all currently created song data, creating any directories as necessary to match the data structure.
-  * Usage: ``download;<root storage directory>;<concurrency limit>
+  * Usage: ``download;<root storage directory>;<concurrency limit>``
     * The concurrency limit is a limit on how many active downloads can be running at a given time. This argument is optional and will default to **3**.
     * _Enter_ ``stop`` _at any given time while this command is running to terminate all running and pending downloads._
 * exit: Gracefully exit the program.
@@ -81,7 +81,7 @@ add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;4
 get;0
 previous;
 get;Accumula town
-download
+download;<C:\Users\[your username]\Documents>
 exit
 ```
 
