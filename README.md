@@ -81,7 +81,7 @@ add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;4
 get;0
 previous;
 get;Accumula town
-download;<C:\Users\[your username]\Documents>
+download;C:\Users\[your username]\Documents
 exit
 ```
 
