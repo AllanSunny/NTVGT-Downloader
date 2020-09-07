@@ -1,5 +1,5 @@
 # NTVGT Downloader
-The NTVGT Downloader is a utility that aids in setup for the Name that Video Game Tune™ (NTVGT) Jeopardy-style game, run by the RIT Game Symphony Orchestra. Each game round comprises of multiple categories, each containing video game songs. The goal of the players is to guess the title of a song and/or the name of the game it originated from.
+The NTVGT Downloader is a utility that aids in setup for the Name that Video Game Tune (NTVGT) Jeopardy-style game, run by the RIT Game Symphony Orchestra. Each game round comprises of multiple categories, each containing video game songs. The goal of the players is to guess the title of a song and/or the name of the game it originated from.
 
 
 ## Table of Contents
@@ -17,14 +17,14 @@ This program was made in order to streamline the process of downloading game aud
 
 Doing this tedious process previously took multiple hours for sessions containing upwards of 3 rounds with 30 songs each. The NTVGT Downloader shaved this time down to less than an hour!
 
-This project was created using [Node.js](https://nodejs.org/) v12.13.1. _Currently, it is only designed for use on Windows devices._
+This project was created using [Node.js](https://nodejs.org/) v12.13.1. _Currently, it is only functional on Windows devices._
 
 
 ## Getting Started
 The program is still a work in progress, so no builds are available yet. Follow these steps to get a local copy of the code.
 
 ### Prerequisites
-* Use **npm** to download dependencies for the project.
+* Download the latest version of **npm**.
 ```sh
 npm install npm@latest -g
 ```
@@ -87,7 +87,6 @@ exit
 
 
 ## Planned Features
-Currently, the program is in its minimum viable product state. In the future, these features may be added.
 * Automatically downloading executable dependencies such as ``youtube-dl.exe`` and ``ffmpeg.exe``
 * Saving and loading existing data
 * A user interface to view and interact with the data
