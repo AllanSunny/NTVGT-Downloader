@@ -76,7 +76,7 @@ Below is an example sequence of commands to demonstrate a run of the program.
 add
 get;0
 add;New Category
-get;New Category
+get;0
 add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;40
 get;0
 previous;
