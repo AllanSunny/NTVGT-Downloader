@@ -45,7 +45,7 @@ npm install
 
 
 ## Usage
-The program requires an internet connection for full functionality (in order to successfully download songs). It currently operates on a command line input/output system. __After each command execution, the current data being viewed is shown.__ All usable commands are shown below with examples. 
+The program requires an internet connection for full functionality (in order to successfully download songs). It currently operates on a command line input/output system. __After each command execution, the current data being viewed is outputted.__ All usable commands are shown below with examples. 
 
 * add: Add an item to the data structure. The arguments for this command varies with what is currently being viewed.
   * NTVGT session (the base): Create a new game round to be associated with the session.
