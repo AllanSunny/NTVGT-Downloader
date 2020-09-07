@@ -11,6 +11,7 @@ The NTVGT Downloader is a utility that aids in setup for the Name that Video Gam
   * [Example Run](#example-run)
 * [Planned Features](#planned-features)
 * [Contact](#contact)
+* [Acknowledgements](#acknowledgements)
 
 ## About the Project
 This program was made in order to streamline the process of downloading game audio clips from Youtube, trimming them down to short segments, and organizing the resulting files. 
@@ -96,3 +97,8 @@ exit
 
 ## Contact
 Allan Sun • allansun@live.com • [LinkedIn](https://linkedin.com/in/allan-sunny)
+
+
+## Acknowledgements
+* [Kaitlyn Tran](https://www.linkedin.com/in/kaitlyn-tran-/), for creating the idea of Name that Video Game Tune.
+* [Node.js v12.x Documentation](https://nodejs.org/docs/latest-v12.x/api/)
