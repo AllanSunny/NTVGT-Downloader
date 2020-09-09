@@ -27,6 +27,15 @@ class Game {
     }
 
     /**
+     * Used to handle invalidly retrieving a game by name.
+     * Since Games do not have associated names, bogus data is returned.
+     * @returns {number} Bogus data
+     */
+    getName() {
+        return -1;
+    }
+
+    /**
      * Get all categories currently stored in this game.
      * @returns {Category[]} An array containing all created categories.
      */

@@ -65,6 +65,7 @@ The program requires an internet connection for full functionality (in order to 
   * Usage: ``previous``
 * remove: Remove an item from the next layer down in the data structure.
   * Usage: ``remove;<name/title or ID>``
+    * _If the download command has previously completed during the same program run, existing directories associated with the removed data will also be removed._
 * download: Download audio files for all currently created song data, creating any directories as necessary to match the data structure.
   * Usage: ``download;<root storage directory>;<concurrency limit>``
     * The concurrency limit is a limit on how many active downloads can be running at a given time. This argument is optional and will default to **3**.
