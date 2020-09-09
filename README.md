@@ -13,6 +13,7 @@ The NTVGT Downloader is a utility that aids in setup for the Name that Video Gam
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
+
 ## About the Project
 This program was made in order to streamline the process of downloading game audio clips from Youtube, trimming them down to short segments, and organizing the resulting files. 
 
@@ -37,7 +38,7 @@ npm install npm@latest -g
 ```sh
 git clone https://github.com/AllanSunny/NTVGT-Downloader.git
 ```
-2. Install all npm packages.
+2. Install all npm dependencies by running this command in the newly created directory.
 ```sh
 npm install
 ```
@@ -82,7 +83,7 @@ add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;4
 get;0
 previous;
 get;accumula Town
-download;C:/Users/[your username]/Documents
+download;C:/Users/[your username]/Documents/NTVGT-Test-Run
 exit
 ```
 
