@@ -57,7 +57,7 @@ The program requires an internet connection for full functionality (in order to 
     * Usage: ``add;<song title>;<game of origin>;<youtube video link>;<video start time>;<video end time>``
       * Start and end times can be in **seconds** or the **hh:mm:ss** format.
       * Start and end times are both optional. The default start time is **0:00** and the default end time is **30 seconds from the start time**.
-      * A start time is required if an end time is desired.
+      * _A start time is required if an end time is desired._
 * get: Retrieve an item from the next layer down in the data structure.
   * Usage: ``get;<name/title or ID>``
 * previous: Retrieve the item that this current data is stored in (the previous layer of the data structure).
@@ -81,8 +81,8 @@ get;0
 add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;40
 get;0
 previous;
-get;Accumula town
-download;C:\Users\[your username]\Documents
+get;accumula Town
+download;C:/Users/[your username]/Documents
 exit
 ```
 
@@ -91,8 +91,8 @@ exit
 * Automatically downloading executable dependencies such as ``youtube-dl.exe`` and ``ffmpeg.exe``
 * Saving and loading existing data
 * A user interface to view and interact with the data
-*	Presentation of game and audio content using created data
-*	A live buzzer system to integrate with the presentation of the game content
+* Presentation of game and audio content using created data
+* A live buzzer system to integrate with the presentation of the game content
 
 
 ## Contact

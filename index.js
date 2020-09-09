@@ -17,7 +17,7 @@ function main() {
     let input = readLine.createInterface({
         input: process.stdin,
         output: process.stdout,
-        prompt: "BOOBA> "
+        prompt: "Input> "
     });
 
     input.prompt(true);

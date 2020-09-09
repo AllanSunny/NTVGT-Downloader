@@ -107,7 +107,7 @@ function getFromArray(name, array) {
             }
         }
     } else {
-        let titleCaseName = util.titleCase(name);
+        let titleCaseName = titleCase(name);
         for (let i = 0; i < array.length; i++) {
             let checking = array[i];
 
@@ -142,7 +142,7 @@ function removeFromArray(name, array) {
     } else {
         for (let i = 0; i < array.length; i++) {
             let checking = array[i];
-            let titleCaseName = util.titleCase(name);
+            let titleCaseName = titleCase(name);
             if (checking.getName() === titleCaseName) {
                 toRemoveIndex = i;
                 removed = checking;
