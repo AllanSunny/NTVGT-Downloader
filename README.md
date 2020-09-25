@@ -26,6 +26,7 @@ This project was created using [Node.js](https://nodejs.org/) v12.13.1. _Current
 The program is still a work in progress, so no builds are available yet. Follow these steps to get a local copy of the code.
 
 ### Prerequisites
+* Install **[Node.js](https://nodejs.org/)**.
 * Download the latest version of **npm**.
 ```sh
 npm install npm@latest -g
@@ -44,6 +45,10 @@ npm install
 ```
 3. Place the ``youtube-dl.exe`` file in ``util/downloadutils``.
 4. Place the ``ffmpeg.exe`` file in ``util/downloadutils``.
+5. Run the program by running this command in the main directory.
+```sh
+node index.js
+```
 
 
 ## Usage
@@ -78,9 +83,10 @@ Below is an example sequence of commands to demonstrate a run of the program.
 ```sh
 add
 get;0
-add;New Category
+add;Example
 get;0
 add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;40
+add;Enemy Approaching;Undertale;https://www.youtube.com/watch?v=JRU6GnETSN4
 get;0
 previous;
 get;accumula Town
