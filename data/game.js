@@ -67,7 +67,7 @@ class Game {
             } else {
                 let newCategory = new Category(this.categoryCount++, newName, this);
                 this.categories.push(newCategory);
-                console.log(`Added new Category "${newCategory.getName()}"!`);
+                console.log(`Added new Category "${newCategory.getName()}"! (ID: ${newCategory.getID()})`);
                 resolve();
             }
         });
@@ -145,10 +145,10 @@ class Game {
      */
     toString() {
         if (this.categories.length === 0) {
-            return `"Game ${this.id + 1} (ID ${this.id}) with no categories"`;
+            return `"Game ${this.id + 1} (ID: ${this.id}) with no categories"`;
         }
 
-        let result = `"Game ${this.id + 1} (ID ${this.id}) containing categories: `;
+        let result = `"Game ${this.id + 1} (ID: ${this.id}) containing categories: `;
         result += util.arrayToStringList(this.categories) + '"';
 
         return result;

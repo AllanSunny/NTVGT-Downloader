@@ -178,7 +178,7 @@ class Song {
      *      <Song Name> - <Game Name> in category <Category Name> [YouTube Link]
      */
     toString() {
-        return `"${this.name} - ${this.vgName}" in category "${this.category.getName()}" [${this.ytLink}]`;
+        return `"${this.name} - ${this.vgName}" (ID: ${this.id}) in category "${this.category.getName()}" [${this.ytLink}]`;
     }
 }
 

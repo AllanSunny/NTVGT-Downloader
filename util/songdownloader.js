@@ -146,7 +146,7 @@ function downloadSong(job) {
                 job.song.getYTLink()],
             (error, stdout, stderr) => {
                 if (error && !job.killed) {
-                    console.error("An error occurred while trying to download a song.");
+                    console.error(`An error occurred while trying to download "${job.song.getName()} - ${job.song.getGameName()}".`);
                     reject(error);
                 } else if (error && job.killed) {
                     reject(`The download for "${job.song.getName()} - ${job.song.getGameName()}" was aborted.`);

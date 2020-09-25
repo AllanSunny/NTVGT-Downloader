@@ -75,7 +75,7 @@ class Category {
                     newSongGame, args[2], this, args[3], args[4]);
 
                 this.songs.push(newSong);
-                console.log(`Added ${newSong.toString()}!`);
+                console.log(`Added ${newSong.toString()}! (ID: ${newSong.getID()})`);
                 resolve();
             }
         });
@@ -153,10 +153,10 @@ class Category {
      */
     toString() {
         if (this.songs.length === 0) {
-            return `"Category "${this.name}" with no songs"`;
+            return `"Category "${this.name}" (ID: ${this.id}) with no songs"`;
         }
 
-        let result = `"Category "${this.name}" containing songs: `;
+        let result = `"Category "${this.name}" (ID: ${this.id}) containing songs: `;
         result += util.arrayToStringList(this.songs) + '"';
 
         return result;
