@@ -31,11 +31,11 @@ The program is still a work in progress, so no builds are available yet. Follow 
 ```sh
 npm install npm@latest -g
 ```
-* Install a local copy of [Youtube-dl](http://ytdl-org.github.io/youtube-dl/).
-* Install a local copy of [FFMPEG](https://ffmpeg.org/).
+* Download a local copy of [Youtube-dl](http://ytdl-org.github.io/youtube-dl/).
+* Download a local copy of [FFMPEG](https://ffmpeg.org/).
 
 ### Installation
-1. Clone a copy of the repository.
+1. Navigate to the desired directory for the code to be stored, then clone a copy of the repository.
 ```sh
 git clone https://github.com/AllanSunny/NTVGT-Downloader.git
 ```
@@ -43,8 +43,8 @@ git clone https://github.com/AllanSunny/NTVGT-Downloader.git
 ```sh
 npm install
 ```
-3. Place the ``youtube-dl.exe`` file in ``util/downloadutils``.
-4. Place the ``ffmpeg.exe`` file in ``util/downloadutils``.
+3. Place the ``youtube-dl.exe`` file in the ``util/downloadutils`` folder.
+4. Place the ``ffmpeg.exe`` file in the ``util/downloadutils`` folder.
 5. Run the program by running this command in the main directory.
 ```sh
 node index.js
@@ -87,7 +87,7 @@ add;Example
 get;0
 add;accumula town;pokemon B/W;https://www.youtube.com/watch?v=dTnZqMpWttY;0:00;40
 add;Enemy Approaching;Undertale;https://www.youtube.com/watch?v=JRU6GnETSN4
-get;0
+get;1
 previous;
 get;accumula Town
 download;C:/Users/[your username]/Documents/NTVGT-Test-Run
