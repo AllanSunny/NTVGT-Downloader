@@ -97,7 +97,8 @@ exit
 
 ## Planned Features
 * Automatically downloading executable dependencies such as ``youtube-dl.exe`` and ``ffmpeg.exe``
-* Saving and loading existing data
+* Saving and loading existing data using csv files
+  * Generating template csv files for data input
 * A user interface to view and interact with the data
 * Presentation of game and audio content using created data
 * A live buzzer system to integrate with the presentation of the game content
