@@ -73,8 +73,9 @@ The program requires an internet connection for full functionality (in order to 
     * _If the download command has previously completed during the same program run, existing directories associated with the removed data will also be removed._
 * download: Download audio files for all currently created song data, creating any directories as necessary to match the data structure.
   * Usage: ``download;<root storage directory>;<concurrency limit>``
-    * The concurrency limit is a limit on how many active downloads can be running at a given time. This argument is optional and will default to **3**.
-    * _Enter_ ``stop`` _at any given time while this command is running to terminate all running and pending downloads._
+    * The root storage directory is only required on the first usage of this command during the program run. **After the first time, the previously provided directory will be used if this argument is not given.**
+    * The concurrency limit is a limit on how many active downloads can be running at a given time. This argument is optional and will default to **3**. _A storage directory must be provided if this argument will be used._
+    * Enter ``stop`` at any given time while this command is running to terminate all running and pending downloads.
 * exit: Gracefully exit the program.
   * Usage: ``exit``
   
