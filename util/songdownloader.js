@@ -23,21 +23,20 @@ class DownloadJob {
         //First make sure the song file doesn't already exist
         let alreadyExists = await util.checkFileOrDirExistence(this.song.getFilePath());
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             if (alreadyExists) {
                 console.log(`*${this.song.getName()} - ${this.song.getGameName()} is already downloaded!*`);
                 resolve();
             } else {
-                downloadSong(this)
-                    .then(() => processSong(this))
-                    .then(() => deleteTemp(this))
-                    .then(() => {
-                        console.log(`*Completed download of "${this.song.getName()} - ${this.song.getGameName()}"!*`);
-                        resolve();
-                    })
-                    .catch((error) => {
-                        reject(error);
-                    });
+                try {
+                    await downloadSong(this);
+                    await processSong(this);
+                    await deleteTemp(this);
+                    console.log(`*Completed download of "${this.song.getName()} - ${this.song.getGameName()}"!*`);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
             }
         });
     }
