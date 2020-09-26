@@ -26,6 +26,7 @@ class CommandInterpreter {
 
         this.executing = undefined;
         this.cancellableTask = undefined;
+        this.previousDestination = undefined; //Previous download destination
 
         //Take all the command functions and map them
         let commandList = commands.getAllCommands();
@@ -140,6 +141,24 @@ class CommandInterpreter {
      */
     getCancellableTask() {
         return this.cancellableTask;
+    }
+
+    /**
+     * Store the last destination that was used as a root folder for
+     * song file storage.
+     * @param {string} destination The path to the directory.
+     */
+    setPreviousDestination(destination) {
+        this.previousDestination = destination;
+    }
+
+    /**
+     * Get the last destination that was used as a root folder for
+     * song file storage.
+     * @returns {string} The path to the directory.
+     */
+    getPreviousDestination() {
+        return this.previousDestination;
     }
 
     /**

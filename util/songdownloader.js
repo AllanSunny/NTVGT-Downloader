@@ -86,6 +86,7 @@ class DownloadJobQueue {
             this.gameManager.setDestination(destination);
             this.gameManager.queueDownloads(this);
 
+            //Errors will be handled by individual downloads
             await Promise.all(this.queue)
                 .then(() => {
                     if (this.killed) {
@@ -144,7 +145,7 @@ function downloadSong(job) {
             ['-o', `${job.song.getFilePath()} (temp)`,
                 '--config-location', './util/downloadutils/ytdlconfig.txt',
                 job.song.getYTLink()],
-            (error, stdout, stderr) => {
+            (error, stdout) => {
                 if (error && !job.killed) {
                     console.error(`An error occurred while trying to download "${job.song.getName()} - ${job.song.getGameName()}".`);
                     reject(error);

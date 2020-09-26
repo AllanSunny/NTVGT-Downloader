@@ -94,23 +94,40 @@ function remove(object, args) {
 }
 
 /**
- * Initiate the download process for all songs. This is a "cancellable task".
+ * Initiate the download process for all songs. This is a "cancellable task". If no
+ * root download directory is provided, the previous one will be used unless it is
+ * undefined.
  * @param object The CommandInterpreter starting the task.
  * @param args Arguments in this order:
  *      [root download directory, concurrency limit (optional)]
  * @returns {Promise<GameManager>} Resolves once all downloads are complete/aborted.
  */
 function download(object, args) {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
         console.log("Preparing to download songs... [enter 'stop' at any time to abort]");
         let downloadJobQueue = new DownloadJobQueue(object.getGameManager(), args[1]);
         object.setCancellableTask(downloadJobQueue);
 
-        await downloadJobQueue.execute(args[0]);
-        //Errors will be handled by individual downloads
+        let destination = args[0];
+        let allowDownload = true; //Flag to control code flow
 
-        //GameManager goes back to being reference to maintain user view
-        resolve(object.getGameManager());
+        if (destination === undefined) { //No destination provided
+            let previousDest = object.getPreviousDestination();
+            if (previousDest !== undefined) {
+                destination = previousDest;
+            } else {
+                allowDownload = false;
+                reject("No download destination provided.");
+            }
+        }
+
+        if (allowDownload) {
+            object.setPreviousDestination(destination);
+            await downloadJobQueue.execute(destination);
+
+            //GameManager goes back to being reference to maintain user view
+            resolve(object.getGameManager());
+        }
     });
 }
 
