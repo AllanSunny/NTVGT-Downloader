@@ -31,7 +31,7 @@ The program is still a work in progress, so no builds are available yet. Follow 
 ```sh
 npm install npm@latest -g
 ```
-* Download a local copy of [Youtube-dl](http://ytdl-org.github.io/youtube-dl/).
+* Download a local copy of [Youtube-dl](https://youtube-dl.org/).
 * Download a local copy of [FFMPEG](https://ffmpeg.org/).
 
 ### Installation
