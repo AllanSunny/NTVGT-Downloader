@@ -59,7 +59,8 @@ class Category {
      * @param {string[]} args Arguments in this order:
      *      [song title, game of origin, youtube link, start time, end time]
      * @returns {Promise} Resolves upon addition to the array, rejects if a song
-     *      with the same name and game of origin already exists.
+     *      with the same name and game of origin already exists, OR if its duration
+     *      is more than 1 minute.
      */
     addData(args) {
         return new Promise((resolve, reject) => {
@@ -74,9 +75,14 @@ class Category {
                 let newSong = new Song(this.songCount++, newSongTitle,
                     newSongGame, args[2], this, args[3], args[4]);
 
-                this.songs.push(newSong);
-                console.log(`Added ${newSong.toString()}! (ID: ${newSong.getID()})`);
-                resolve();
+                //TODO: Make the song its own information expert on this
+                if (newSong.getDuration() > 60) { //Copyright??
+                    reject("The song clip is over 1 minute long!");
+                } else {
+                    this.songs.push(newSong);
+                    console.log(`Added ${newSong.toString()}! (ID: ${newSong.getID()})`);
+                    resolve();
+                }
             }
         });
     }

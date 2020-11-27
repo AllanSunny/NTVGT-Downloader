@@ -64,6 +64,7 @@ The program requires an internet connection for full functionality (in order to 
       * Start and end times can be in **seconds** or the **hh:mm:ss** format.
       * Start and end times are both optional. The default start time is **0:00** and the default end time is **30 seconds from the start time**.
       * _A start time is required if an end time is desired._
+      * **The length of a song clip currently cannot exceed 1 minute, in order to prevent full downloads of copyrighted songs. This may be changed in the future.**
 * get: Retrieve an item from the next layer down in the data structure.
   * Usage: ``get;<name/title or ID>``
 * previous: Retrieve the item that this current data is stored in (the previous layer of the data structure).
