@@ -43,7 +43,8 @@ function checkUtilityExistence(path) {
 function updateYoutubeDl() {
     return new Promise(async (resolve, reject) => {
         console.log("Updating youtube-dl...");
-        await childProcess.execFile('./util/downloadutils/youtube-dl.exe', ['-U'],
+        await childProcess.execFile('./util/downloadutils/youtube-dl.exe',
+            ['-U', '--no-check-certificate'],
             (error, stdout, stderr) => {
                 if (error) {
                     console.error("Could not update youtube-dl.");

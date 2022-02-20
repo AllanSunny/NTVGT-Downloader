@@ -24,9 +24,17 @@ function main() {
 
     //Loop for listening for commands
     input.on("line", (line) => {
-        if (commandInterpreter.isBusy()) {
-            if (line.trim() === 'stop') {
-                commandInterpreter.execute(line.trim())
+        line = line.trim();
+        let canProcess = true;
+
+        if (line.length === 0) {
+            input.prompt(true);
+            canProcess = false;
+        }
+        
+        if (canProcess && commandInterpreter.isBusy()) {
+            if (line === 'stop') {
+                commandInterpreter.execute(line)
                     .then(() => {
                         input.prompt(true);
                     })
@@ -39,8 +47,8 @@ function main() {
                 console.error("System is busy, please wait...");
                 input.prompt(true);
             }
-        } else {
-            commandInterpreter.execute(line.trim())
+        } else if (canProcess) {
+            commandInterpreter.execute(line)
                 .then((result) => {
                     //if (result) {console.log(result.toString());} //TODO: Use as debug
                     input.prompt(true);
