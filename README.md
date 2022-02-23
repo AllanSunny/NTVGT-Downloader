@@ -76,6 +76,7 @@ The program requires an internet connection for full functionality (in order to 
   * Usage: ``download;<root storage directory>;<concurrency limit>``
     * The root storage directory is only required on the first usage of this command during the program run. **After the first time, the previously provided directory will be used if this argument is not given.**
     * The concurrency limit is a limit on how many active downloads can be running at a given time. This argument is optional and will default to **3**. _A storage directory must be provided if this argument will be used._
+        * **_NOTE:_ Youtube webpage request rate limitations may cause downloads to fail with a 403 error if too many run at the same time.**
     * Enter ``stop`` at any given time while this command is running to terminate all running and pending downloads.
 * exit: Gracefully exit the program.
   * Usage: ``exit``
