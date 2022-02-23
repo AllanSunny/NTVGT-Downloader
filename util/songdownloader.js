@@ -65,8 +65,8 @@ class DownloadJobQueue {
     constructor(gameManager, limit) {
         this.queue = []; //Queue of download job execution promises to be fulfilled
         let concurrency;
-        limit ? concurrency = limit : concurrency = 3;
-        this.limiter = pLimit(concurrency);
+        limit ? concurrency = limit : concurrency = "3";
+        this.limiter = pLimit(parseInt(concurrency));
 
         this.jobs = []; //Instances of DownloadJobs
         this.gameManager = gameManager;
