@@ -60,12 +60,12 @@ class DownloadJobQueue {
     /**
      * Generate a queue of downloads to be executed.
      * @param gameManager The object where all the songs are stored.
-     * @param {number} [limit=3] The max number of concurrent downloads allowed.
+     * @param {number} [limit=2] The max number of concurrent downloads allowed.
      */
     constructor(gameManager, limit) {
         this.queue = []; //Queue of download job execution promises to be fulfilled
         let concurrency;
-        limit ? concurrency = limit : concurrency = "3";
+        limit ? concurrency = limit : concurrency = "2";
         this.limiter = pLimit(parseInt(concurrency));
 
         this.jobs = []; //Instances of DownloadJobs

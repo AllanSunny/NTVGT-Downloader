@@ -19,7 +19,7 @@ This program was made in order to streamline the process of downloading game aud
 
 Doing this tedious process previously took multiple hours for sessions containing upwards of 3 rounds with 30 songs each. The NTVGT Downloader shaved this time down to less than an hour!
 
-This project was created using [Node.js](https://nodejs.org/) v12.13.1. _Currently, it is only functional on Windows devices._
+This project was created using [Node.js](https://nodejs.org/) v16.15. _Currently, it is only functional on Windows devices._
 
 
 ## Getting Started
@@ -113,4 +113,4 @@ Allan Sun • allansun@live.com • [LinkedIn](https://linkedin.com/in/allan-sun
 
 ## Acknowledgements
 * [Kaitlyn Tran](https://www.linkedin.com/in/kaitlyn-tran-/), for creating the idea of Name that Video Game Tune.
-* [Node.js v12.x Documentation](https://nodejs.org/docs/latest-v12.x/api/)
+* [Node.js v16.x Documentation](https://nodejs.org/docs/latest-v16.x/api/)
