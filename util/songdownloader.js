@@ -141,7 +141,7 @@ function downloadSong(job) {
         console.log(`Downloading audio for "${job.song.getName()} - ${job.song.getGameName()}"...`);
 
         job.runningDownload = childProcess.execFile('./util/downloadutils/youtube-dl.exe',
-            ['-o', `${job.song.getFilePath()} (temp)`,
+            ['--output', `${job.song.getFilePath()} (temp)`,
                 '--config-location', './util/downloadutils/ytdlconfig.txt',
                 job.song.getYTLink()],
             (error, stdout) => {
@@ -174,7 +174,7 @@ function processSong(job) {
             ['-hide_banner', '-y',
                 '-loglevel', 'panic',
                 '-i', `${job.song.getFilePath()} (temp)`,
-                '-ss', job.song.getStartTime(), '-t', job.song.getDuration(),
+                '-ss', `${job.song.getStartTime()}`, '-t', `${job.song.getDuration()}`,
                 '-c:v', 'copy', '-c:a', 'libmp3lame',
                 '-q:a', '2', `${job.song.getFilePath()}`],
             () => {

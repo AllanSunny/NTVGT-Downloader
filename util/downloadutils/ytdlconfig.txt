@@ -1,3 +1,2 @@
---extract-audio
---audio-format mp3
+--format bestaudio
 --ignore-errors
